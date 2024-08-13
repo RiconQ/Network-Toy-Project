@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UserInfo
@@ -86,7 +87,7 @@ public class DatabaseManager : BaseSingleton<DatabaseManager>
         }
     }
 
-    public bool CreateUser(string userEmail, string userName, string userPassword, string userPhoneNumber, out string exceptionMessage)
+    public bool CreateUser(string userEmail, string userName, string userPassword, out string exceptionMessage)
     {
         try
         {
@@ -96,15 +97,14 @@ public class DatabaseManager : BaseSingleton<DatabaseManager>
                 return false;
 
             string sqlCreateUserCommand = @"
-            INSERT INTO user_info (User_Email, User_Name, User_Password, User_PhoneNumber)
-            VALUES (@userEmail, @userName, @userPassword, @userPhoneNumber)";
+            INSERT INTO user_info (User_Email, User_Name, User_Password)
+            VALUES (@userEmail, @userName, @userPassword)";
 
             using (MySqlCommand mySqlCreateUserCommand = new MySqlCommand(sqlCreateUserCommand, DatabaseConnection))
             {
                 mySqlCreateUserCommand.Parameters.AddWithValue("@userEmail", userEmail);
                 mySqlCreateUserCommand.Parameters.AddWithValue("@userName", userName);
-                mySqlCreateUserCommand.Parameters.AddWithValue("@userPassword", userPassword);
-                mySqlCreateUserCommand.Parameters.AddWithValue("@userPhoneNumber", userPhoneNumber);
+                mySqlCreateUserCommand.Parameters.AddWithValue("@userPassword", userPassword);                
 
                 mySqlCreateUserCommand.ExecuteNonQuery();
             }
@@ -114,7 +114,7 @@ public class DatabaseManager : BaseSingleton<DatabaseManager>
         catch (Exception e)
         {
             exceptionMessage = e.Message;
-            Debug.Log(e.Message);            
+            Debug.Log(e.Message);
             return false;
         }
     }
