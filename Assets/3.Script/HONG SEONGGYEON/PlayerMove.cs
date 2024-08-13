@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum PlayerType
+{
+    SPEED,
+    SCALE
+};
+
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
@@ -9,13 +15,19 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Transform camerArm;
 
-    private float moveSpeed = 5f;
+    public float walkSpeed = 5f;
+    public float runSpeed = 8f;
+    private float currentSpeed;
+    private float skillSpeed=1;
     private float jumpForce=4f;
     private bool isJumping = false;
     private bool isAttacking = false;
+    private bool isDead = false;
+    private float currentTime = 0;
 
     private Rigidbody rb;
     public GameObject colider;
+    private PlayerType playerType;
 
     Animator player_Ani;
 
@@ -34,6 +46,9 @@ public class PlayerMove : MonoBehaviour
         LookAround();
         Jump();
         Attack();
+        UseSkill();
+        Debug.Log(currentSpeed);
+       // if (Input.GetKeyDown(KeyCode.U)) Die();
     }
 
     private void FixedUpdate()
@@ -49,7 +64,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Move()
     {
-        if (isAttacking) return;
+        if (isAttacking||isDead) return;
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         bool isMoving = moveInput.magnitude != 0;   //moveInput의 길이가 0이면 이동 입력이 없는것
        if(isMoving)
@@ -62,15 +77,15 @@ public class PlayerMove : MonoBehaviour
             if (isPressShift())
             {
                 player_Ani.SetBool("isRun", true);
-                moveSpeed = 8f;
+                currentSpeed = runSpeed;
             }
             else
             {
                 player_Ani.SetBool("isRun", false);
                  player_Ani.SetBool("isWalk", true);
-                moveSpeed = 5f;
+                currentSpeed = walkSpeed;
             }
-            transform.position += moveDir * Time.deltaTime * moveSpeed;
+            transform.position += moveDir * Time.deltaTime * currentSpeed*skillSpeed;
         }
 
        else
@@ -98,7 +113,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump()
     {
-        if (isAttacking) return;
+        if (isAttacking||isDead) return;
         if(Input.GetKeyDown(KeyCode.Space)&&!isJumping)
         {
             player_Ani.SetTrigger("isJump");
@@ -121,7 +136,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Attack()
     {
-        if (isJumping) return;
+        if (isJumping||isDead) return;
         if (Input.GetMouseButtonDown(0)&&!isAttacking)
         {
             colider.SetActive(true);
@@ -146,6 +161,56 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+
+    public void Die()
+    {
+        if (!isDead)
+        {
+            player_Ani.SetTrigger("isDead");
+            isDead = true;
+        }
+    }
+
+    public void UseSkill()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            switch (playerType)
+            {
+                case PlayerType.SPEED:
+                    StartCoroutine(SpeedUP_co());
+                    break;
+
+                case PlayerType.SCALE:
+                    break;
+
+            }
+        }
+    }
+
+
+    private IEnumerator SpeedUP_co()
+    {
+        skillSpeed = 10f;
+        yield return new WaitForSeconds(3f);
+        skillSpeed = 1f;
+
+    }
+  //  private void SpeedUp()
+  //  {
+  //      currentTime += Time.deltaTime;
+  //      if(currentTime<3.0f)
+  //      {
+  //          skillSpeed = 10f;
+  //      Debug.Log("스피드업");
+  //      }
+  //      else
+  //      {
+  //          Debug.Log("복귀");
+  //          skillSpeed = 1f;
+  //          currentTime = 0;
+  //      }
+  //  }
 
    
 }
