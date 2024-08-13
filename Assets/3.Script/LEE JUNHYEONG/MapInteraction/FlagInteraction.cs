@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +20,7 @@ public class FlagInteraction : NetworkBehaviour
     {
         /*
          * 플레이어의 깃발 점수 올리는 로직 추가
-         *//*
+         */
 
         if (other.CompareTag("Player"))
         {
@@ -47,4 +47,3 @@ public class FlagInteraction : NetworkBehaviour
         getFlagEFF.Play();
     }
 }
-*/

@@ -26,6 +26,11 @@ public class LocalDataManager : MonoBehaviour
             defaultData = new MixerData(40f, 40f, 40f);
             GetMixerDataFromLocal();
         }
+
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     public void SaveMixerData() // mixerData 저장
     {
@@ -65,13 +70,24 @@ public class LocalDataManager : MonoBehaviour
 
 
 
-    public void SaveResult() // 게임 종료 이벤트에 등록
+    public void SaveResult() // 게임 종료 이벤트에 등록 (최고 기록만)
     {
+
+        if (File.Exists(timePath))
+        {
+            string JsonDataString = File.ReadAllText(timePath);
+
+            if (timeData.finalTime <= GetResultFromLocal().finalTime)
+            {
+                return;
+            }
+        }
+
             string newJson = JsonUtility.ToJson(timeData);
             File.WriteAllText(timePath, newJson);
     }
 
-    public ResultTimeData GetResultTime() // 스코어 얻기
+    public ResultTimeData GetResultFromLocal() // 스코어 얻기
     {
         string JsonDataString = File.ReadAllText(timePath);
         ResultTimeData resultTimeData = new ResultTimeData(0f);
