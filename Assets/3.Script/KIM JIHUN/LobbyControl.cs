@@ -7,8 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class LobbyControl : MonoBehaviour
 {
-    [Header("IP")]
+    [Header("My Info")]
     [SerializeField] private TMP_Text _myIP;
+    [SerializeField] private TMP_Text _userName;
+
+    [Header("User Info")]
     [SerializeField] private TMP_InputField _ipInput;
     [SerializeField] private TMP_InputField _portInput;
 
@@ -25,6 +28,9 @@ public class LobbyControl : MonoBehaviour
 
         //내 아이피 표시
         //_myIP.text = $"My IP : {내 아이피}";
+
+        //User Name 표시
+        //_userName.text = $"[{User Name}]";
     }
 
     private void HostGame()

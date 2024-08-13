@@ -34,6 +34,7 @@ public class MainMenuController : MonoBehaviour
         _popupLogin.transform.parent.gameObject.SetActive(true);
         _popupLogin.transform.parent.GetComponent<LoginController>().Open();
 
+        _popupLogin.transform.localScale = Vector3.zero;               
         _popupLogin.transform.DOScale(new Vector3(0.8f, 0.8f, 1), 0.5f);
     }
 

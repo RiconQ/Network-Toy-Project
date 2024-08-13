@@ -121,6 +121,8 @@ public class LoginController : MonoBehaviour
         {
             //회원가입 로직
 
+
+
             //회원가입 성공시 로그인 창으로 전환
             _registerContainer.SetActive(false);
             _loginContainer.SetActive(true);
@@ -142,4 +144,13 @@ public class LoginController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Log Text 출력 메서드
+    /// Parameter 미기입시 자동으로 Log Clear
+    /// </summary>
+    /// <param name="log"></param>
+    private void PrintLog(string log = "")
+    {
+        _logText.text = log;
+    }
 }
