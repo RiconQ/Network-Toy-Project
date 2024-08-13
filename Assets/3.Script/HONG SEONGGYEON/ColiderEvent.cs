@@ -10,7 +10,8 @@ public class ColiderEvent : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             Debug.Log("Player 때림");
-            //플레이어 죽는 매서드 호출
+            PlayerMove player = other.GetComponentInParent<PlayerMove>();
+            player.Die();
         }
 
         if(other.CompareTag("AI"))

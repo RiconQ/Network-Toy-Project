@@ -436,6 +436,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1047377754407957432}
   camerArm: {fileID: 4605775404352308520}
+  walkSpeed: 5
+  runSpeed: 8
   colider: {fileID: 2047166535543135109}
 --- !u!1 &2047166535543135109
 GameObject:
@@ -489,8 +491,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.8172284, y: 0.48095226, z: 0.56589466}
-  m_Center: {x: -0.0037254393, y: 1.1946545, z: 0.44678828}
+  m_Size: {x: 0.8172284, y: 0.48095226, z: 0.6015453}
+  m_Center: {x: -0.0037254393, y: 1.1946545, z: 0.4646136}
 --- !u!114 &6287570177110434573
 MonoBehaviour:
   m_ObjectHideFlags: 0
