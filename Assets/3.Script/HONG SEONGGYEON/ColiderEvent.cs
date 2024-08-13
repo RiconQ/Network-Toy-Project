@@ -9,7 +9,13 @@ public class ColiderEvent : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            Debug.Log("때림");
+            Debug.Log("Player 때림");
+            //플레이어 죽는 매서드 호출
+        }
+
+        if(other.CompareTag("AI"))
+        {
+            Debug.Log("AI 때림");
         }
     }
 
