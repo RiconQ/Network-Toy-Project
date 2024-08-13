@@ -15,7 +15,7 @@ public class PlayerMove : MonoBehaviour
     private bool isAttacking = false;
 
     private Rigidbody rb;
-    private ColiderEvent col;
+    public GameObject colider;
 
     Animator player_Ani;
 
@@ -23,7 +23,6 @@ public class PlayerMove : MonoBehaviour
     {
         player_Ani = player.GetComponent<Animator>();
         rb = player.GetComponent<Rigidbody>();
-        col = player.GetComponentInChildren<ColiderEvent>();
 
 
         player_Ani.SetBool("isWalk", false);
@@ -125,7 +124,7 @@ public class PlayerMove : MonoBehaviour
         if (isJumping) return;
         if (Input.GetMouseButtonDown(0)&&!isAttacking)
         {
-            col.EnableColider();
+            colider.SetActive(true);
             player_Ani.SetTrigger("isAttack");
             isAttacking = true;
         }
@@ -135,6 +134,7 @@ public class PlayerMove : MonoBehaviour
         if (stateInfo.IsName("Attack") && stateInfo.normalizedTime >= 0.9f)
         {
             isAttacking = false;
+            colider.SetActive(false);
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 player_Ani.SetBool("isWalk", true); 
@@ -142,7 +142,7 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 player_Ani.SetBool("isWalk", false);
-                Debug.Log("넘어감");
+               // Debug.Log("넘어감");
             }
         }
     }
