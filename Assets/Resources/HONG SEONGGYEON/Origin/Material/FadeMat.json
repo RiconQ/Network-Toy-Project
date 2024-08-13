@@ -1,0 +1,42 @@
+{
+  "m_Shader": {
+    "m_FileID": 0,
+    "m_PathID": 21,
+    "Name": "Oculus/Unlit Transparent Color",
+    "IsNull": false
+  },
+  "m_SavedProperties": {
+    "m_TexEnvs": {},
+    "m_Ints": null,
+    "m_Floats": {
+      "_BumpScale": 1.0,
+      "_Cutoff": 0.5,
+      "_DetailNormalMapScale": 1.0,
+      "_DstBlend": 0.0,
+      "_Glossiness": 0.5,
+      "_Metallic": 0.0,
+      "_Mode": 0.0,
+      "_OcclusionStrength": 1.0,
+      "_Parallax": 0.02,
+      "_SrcBlend": 1.0,
+      "_UVSec": 0.0,
+      "_ZWrite": 1.0
+    },
+    "m_Colors": {
+      "_Color": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+      },
+      "_EmissionColor": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+      }
+    }
+  },
+  "m_Name": "FadeMat",
+  "Name": "FadeMat"
+}

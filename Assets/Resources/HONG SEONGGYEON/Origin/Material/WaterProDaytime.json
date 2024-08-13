@@ -1,0 +1,162 @@
+{
+  "m_Shader": {
+    "m_FileID": 0,
+    "m_PathID": 20,
+    "Name": "FX/Water",
+    "IsNull": false
+  },
+  "m_SavedProperties": {
+    "m_TexEnvs": {
+      "_BumpMap": {
+        "m_Texture": {
+          "m_FileID": 0,
+          "m_PathID": 14,
+          "Name": "WaterBump",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_Fresnel": {
+        "m_Texture": {
+          "m_FileID": 0,
+          "m_PathID": 15,
+          "Name": "WaterFresnel",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_ReflectionTex": {
+        "m_Texture": {
+          "m_FileID": 0,
+          "m_PathID": 0,
+          "Name": "",
+          "IsNull": true
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_ReflectiveColor": {
+        "m_Texture": {
+          "m_FileID": 0,
+          "m_PathID": 16,
+          "Name": "WaterProDaytimeGradient",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_RefractionTex": {
+        "m_Texture": {
+          "m_FileID": 0,
+          "m_PathID": 0,
+          "Name": "",
+          "IsNull": true
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      }
+    },
+    "m_Ints": null,
+    "m_Floats": {
+      "_ReflDistort": 0.09,
+      "_RefrDistort": 0.12,
+      "_WaveScale": 0.15
+    },
+    "m_Colors": {
+      "WaveSpeed": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": -1.0,
+        "a": 1.0
+      },
+      "_BumpMap_ST": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_Fresnel_ST": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_HorizonColor": {
+        "r": 0.13575952,
+        "g": 0.22810712,
+        "b": 0.3810788,
+        "a": 0.0
+      },
+      "_MainTex_ST": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_ReflectionTex_ST": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_ReflectiveColorCube_ST": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_ReflectiveColor_ST": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_RefrColor": {
+        "r": 0.5974265,
+        "g": 0.9113845,
+        "b": 0.9558824,
+        "a": 1.0
+      },
+      "_RefractionTex_ST": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 0.0
+      }
+    }
+  },
+  "m_Name": "WaterProDaytime",
+  "Name": "WaterProDaytime"
+}
