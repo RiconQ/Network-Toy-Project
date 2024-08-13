@@ -21,6 +21,9 @@ public class MainMenuController : MonoBehaviour
         _loginBTN.onClick.AddListener(PopupLogin);
         _startGameBTN.onClick.AddListener(GameStart);
         _quitGameBTN.onClick.AddListener(GameQuit);
+
+        //로그인 정보가 있다면 LoginBTN 비활성화
+        //_loginBTN.gameObject.SetActive(false);
     }
 
     /// <summary>
