@@ -1,0 +1,23 @@
+{
+  "m_Shader": {
+    "m_FileID": 0,
+    "m_PathID": 14,
+    "Name": "ProBuilder/UnlitVertexColor",
+    "IsNull": false
+  },
+  "m_SavedProperties": {
+    "m_TexEnvs": {},
+    "m_Ints": null,
+    "m_Floats": {},
+    "m_Colors": {
+      "_Color": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      }
+    }
+  },
+  "m_Name": "UnlitVertexColor",
+  "Name": "UnlitVertexColor"
+}

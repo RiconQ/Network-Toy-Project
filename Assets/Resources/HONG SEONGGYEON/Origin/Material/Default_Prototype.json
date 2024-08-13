@@ -1,0 +1,120 @@
+{
+  "m_Shader": {
+    "m_FileID": 0,
+    "m_PathID": 13,
+    "Name": "ProBuilder/Standard Vertex Color",
+    "IsNull": false
+  },
+  "m_SavedProperties": {
+    "m_TexEnvs": {
+      "_BumpMap": {
+        "m_Texture": {
+          "m_FileID": 0,
+          "m_PathID": 0,
+          "Name": "",
+          "IsNull": true
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      },
+      "_MainTex": {
+        "m_Texture": {
+          "m_FileID": 0,
+          "m_PathID": 9,
+          "Name": "GridBox_Default",
+          "IsNull": false
+        },
+        "m_Scale": {
+          "X": 1.0,
+          "Y": 1.0
+        },
+        "m_Offset": {
+          "X": 0.0,
+          "Y": 0.0
+        }
+      }
+    },
+    "m_Ints": null,
+    "m_Floats": {
+      "_AlphaTestRef": 0.5,
+      "_Amplitude": 0.33928573,
+      "_Angle": 0.46428573,
+      "_BumpScale": 1.0,
+      "_Cutoff": 0.27,
+      "_DetailNormalMapScale": 1.0,
+      "_DstBlend": 0.0,
+      "_EmissionScaleUI": 0.0,
+      "_Gloss": 0.5,
+      "_Glossiness": 0.48,
+      "_Lightmapping": 1.0,
+      "_Metallic": 0.5,
+      "_Mode": 0.0,
+      "_OcclusionStrength": 1.0,
+      "_Parallax": 0.02,
+      "_Phase": 1.0,
+      "_Size": 25.0,
+      "_SrcBlend": 1.0,
+      "_UVSec": 1.0,
+      "_Wavelength": 0.17857142,
+      "_ZWrite": 1.0
+    },
+    "m_Colors": {
+      "_Color": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_Color1": {
+        "r": 0.67910445,
+        "g": 0.67910445,
+        "b": 0.67910445,
+        "a": 1.0
+      },
+      "_Color2": {
+        "r": 0.14179105,
+        "g": 0.14179105,
+        "b": 0.14179105,
+        "a": 1.0
+      },
+      "_EmissionColor": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 0.0
+      },
+      "_EmissionColorUI": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_EmissionColorWithMapUI": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+      },
+      "_Indicator": {
+        "r": 1.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+      },
+      "_SpecularColor": {
+        "r": 0.2,
+        "g": 0.2,
+        "b": 0.2,
+        "a": 1.0
+      }
+    }
+  },
+  "m_Name": "Default_Prototype",
+  "Name": "Default_Prototype"
+}
