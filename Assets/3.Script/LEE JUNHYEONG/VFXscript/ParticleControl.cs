@@ -12,7 +12,8 @@ public enum ParticleName
 {
     HIT = 0,
     DIE = 1,
-    STUN =2
+    SPEED =2,
+    SCALE
 }
 
 public class ParticleControl : NetworkBehaviour
@@ -30,8 +31,15 @@ public class ParticleControl : NetworkBehaviour
     private AudioSource PlayerAudio;
 
     private static event Action<Vector3,Vector3> OnHit;
-    private static event Action<ParticleName> OnSkill; 
+    private static event Action<ParticleName> OnSkill;
+    private Collider _collider;
+
     #endregion
+
+    private void Start()
+    {
+        _collider = GetComponent<Collider>();
+    }
 
     public override void OnStartAuthority()
     {
@@ -48,13 +56,18 @@ public class ParticleControl : NetworkBehaviour
         StartSoundByEFFState(state);
     }
 
+    public void TurnOffSpeedSkill() // 스피드 이펙트 끄기
+    {
+        particleSystems[(int)ParticleName.SPEED].Stop();
+    }
+
     [Client] // 스킬 시전시 해당 메소드 호출하기
     public void ClientStartSkill(ParticleName state)
     {
         cmdStartSkill(state);
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     private void cmdStartSkill(ParticleName state)
     {
         RPCHandleSkill(state);
@@ -99,8 +112,8 @@ public class ParticleControl : NetworkBehaviour
         particleSystems[(int)ParticleName.DIE].Stop();
         particleSystems[(int)ParticleName.DIE].Play();
 
-        //StartSoundByEFFState(ParticleName.HIT);
-        //StartSoundByEFFState(ParticleName.DIE);
+        StartSoundByEFFState(ParticleName.HIT);
+        StartSoundByEFFState(ParticleName.DIE);
     }
 
     [Client]
@@ -109,7 +122,7 @@ public class ParticleControl : NetworkBehaviour
         if (other.name.Equals("Weapon"))
         {
             Debug.Log("충돌용 태그 사용 필요");
-            CMDHandle(other.ClosestPoint(transform.position), other.ClosestPoint((2 * other.transform.position) - transform.position));
+            CMDHandle(_collider.ClosestPoint(other.transform.position), other.ClosestPoint((2 * other.transform.position) - transform.position));
         }
     }
 
