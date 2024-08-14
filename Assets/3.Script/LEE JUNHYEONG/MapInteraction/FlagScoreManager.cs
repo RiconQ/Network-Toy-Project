@@ -26,6 +26,6 @@ public class FlagScoreManager : MonoBehaviour
             }
         }
 
-        Managers.Instance.gameManager.ShowGameOver();
+        //Managers.Instance.gameManager.ShowGameOver();
     }
 }

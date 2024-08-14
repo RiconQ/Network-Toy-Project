@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Mirror;
+using Unity.VisualScripting;
 
 public class LobbyControl : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class LobbyControl : MonoBehaviour
     [Header("My Info")]
     [SerializeField] private TMP_Text _myIP;
     [SerializeField] private TMP_Text _userName;
+    [SerializeField] private TMP_Text _logTextbox;
 
     [Header("User Info")]
     [SerializeField] private TMP_InputField _ipInput;
@@ -31,7 +34,7 @@ public class LobbyControl : MonoBehaviour
         _toMainMenu.onClick.AddListener(ToMainMenu);
 
         //내 아이피 표시
-        //_myIP.text = $"My IP : {.Instance.Network.GetLocalIPAddress()}";
+        _myIP.text = $"My IP : {Managers.Instance.Game.GetLocalIPAddress()}";
 
         //User Name 표시
         _userName.text = $"[{Managers.Instance.Database.UserInfo.User_Name}]";
@@ -47,7 +50,33 @@ public class LobbyControl : MonoBehaviour
 
     private void JoinGame()
     {
+        var roomManager = MirrorNetworkRoomManager.singleton;
 
+        // 클라이언트로 연결할 서버의 IP와 포트 번호 설정
+        if(_ipInput.text == string.Empty)
+        {
+            // 포트 번호가 올바르지 않다면 메시지를 띄운다.
+            _logTextbox.text = "Invalid IP number.";
+            return;
+        }
+        else
+        {
+            roomManager.networkAddress = _ipInput.text;
+        }        
+
+        if (ushort.TryParse(_portInput.text, out ushort port))
+        {
+            roomManager.GetOrAddComponent<TelepathyTransport>().port = port;
+        }
+        else
+        {
+            // 포트 번호가 올바르지 않다면 메시지를 띄운다.
+            _logTextbox.text = "Invalid port number.";
+            return;
+        }
+
+        // 클라이언트로 연결 시도
+        roomManager.StartClient();        
     }
 
     private void ToMainMenu()

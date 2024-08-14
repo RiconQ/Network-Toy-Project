@@ -9,7 +9,7 @@ enum PlayerType
     SCALE
 };
 
-public class PlayerMove :MonoBehaviour
+public class PlayerMove : NetworkBehaviour
 {
     [SerializeField]
     private Transform player;
@@ -40,6 +40,9 @@ public class PlayerMove :MonoBehaviour
 
     private void Start()
     {
+        // [서버 로직]
+        if (!isLocalPlayer) return; // 로컬 플레이어가 아니면 아무것도 하지 않음
+
         player_Ani = player.GetComponent<Animator>();
         rb = player.GetComponent<Rigidbody>();
         player_Ani.SetBool("isWalk", false);
@@ -53,6 +56,9 @@ public class PlayerMove :MonoBehaviour
 
     private void Update()
     {
+        // [서버 로직]
+        if (!isLocalPlayer) return; // 로컬 플레이어가 아니면 입력 처리하지 않음
+
         //player_Ani.SetBool("isWalk", false);  // Idle
         if (isStun) return;
         LookAround();

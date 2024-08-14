@@ -37,11 +37,11 @@ public class DatabaseSessionData
 
     public DatabaseSessionData()
     {
-        IP = "127.0.0.1";
+        IP = "3.37.56.75";
         Port = "3306";
         TableName = "users";
-        HostID = "root";
-        PassWord = "0000";
+        HostID = "remotehost";
+        PassWord = "3537";
     }
 }
 

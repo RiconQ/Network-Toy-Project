@@ -9,6 +9,8 @@ using System.IO;
 using Unity.VisualScripting;
 using UnityEngine.Events;
 using UnityEditor;
+using System.Net.Sockets;
+using System.Net;
 
 public class GameManager : MonoBehaviour, IInitializable
 {
@@ -99,6 +101,21 @@ public class GameManager : MonoBehaviour, IInitializable
     }
 
     #endregion
+
+    public string GetLocalIPAddress()
+    {
+        string localIP = "";
+        foreach (var networkInterface in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+        {
+            if (networkInterface.AddressFamily == AddressFamily.InterNetwork)
+            {
+                localIP = networkInterface.ToString();
+                break;
+            }
+        }
+
+        return localIP;
+    }
 }
 
 #region »ç¿îµå DB format
