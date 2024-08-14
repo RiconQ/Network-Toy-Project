@@ -6,11 +6,14 @@ using DG.Tweening;
 
 public class MainMenuController : MonoBehaviour
 {
+    [Header("UI Canvas")]
+    [SerializeField] private GameObject _loginCanvas;
+    [SerializeField] private GameObject _lobbyCanvas;
+
     [Header("Button")]
     [SerializeField] private Button _loginBTN;      
     [SerializeField] private Button _quitGameBTN;
-    [SerializeField] private Button _startGameBTN;
-    [SerializeField] private Button _logoutBTN;
+    [SerializeField] private Button _startGameBTN;    
 
     [Header("Popup Login")]
     [SerializeField] private GameObject _popupLogin;
@@ -21,9 +24,21 @@ public class MainMenuController : MonoBehaviour
     {
         _loginBTN.onClick.AddListener(PopupLogin);        
         _quitGameBTN.onClick.AddListener(GameQuit);
+        _startGameBTN.onClick.AddListener(GameStart);
+
+        // UI 초기화
+        _loginCanvas.SetActive(true);
+        _lobbyCanvas.SetActive(false);
 
         //로그인 정보가 있다면 LoginBTN 비활성화
         //_loginBTN.gameObject.SetActive(false);
+    }
+
+    public void Clear()
+    {
+        // UI 초기화
+        _loginCanvas.SetActive(true);
+        _lobbyCanvas.SetActive(false);
     }
 
     /// <summary>
@@ -36,6 +51,12 @@ public class MainMenuController : MonoBehaviour
 
         _popupLogin.transform.localScale = Vector3.zero;               
         _popupLogin.transform.DOScale(new Vector3(0.8f, 0.8f, 1), 0.5f);
+    }
+
+    private void GameStart()
+    {
+        _lobbyCanvas.SetActive(true);
+        _loginCanvas.SetActive(false);        
     }
 
 

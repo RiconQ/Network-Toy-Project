@@ -1,5 +1,7 @@
 using kcp2k;
 using Mirror;
+using System.Net.Sockets;
+using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,5 +23,24 @@ public class MirrorNetworkManager : NetworkManager, IInitializable
             Debug.Log("MirrorNetworkManager를 Managers의 하위로 이동합니다.");
             transform.SetParent(Managers.Instance.transform);
         }
+    }
+
+    /// <summary>
+    /// 현재 로컬 IP를 string으로 반환합니다.
+    /// </summary>
+    /// <returns></returns>
+    public string GetLocalIPAddress()
+    {
+        string localIP = "";
+        foreach (var networkInterface in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+        {
+            if (networkInterface.AddressFamily == AddressFamily.InterNetwork)
+            {
+                localIP = networkInterface.ToString();
+                break;
+            }
+        }
+
+        return localIP;
     }
 }

@@ -9,6 +9,15 @@ public class FlagInteraction : NetworkBehaviour
     private ParticleSystem getFlagEFF;
 
     private static Action onGetFlag;
+    private FlagScoreManager flagScoreManager;
+
+    public bool isClear { get; private set; }
+
+    private void Start()
+    {
+        isClear = false;
+        flagScoreManager = GetComponentInParent<FlagScoreManager>();
+    }
 
     public override void OnStartAuthority()
     {
@@ -18,25 +27,25 @@ public class FlagInteraction : NetworkBehaviour
     [Client]
     private void OnTriggerEnter(Collider other)
     {
-        /*
-         * 플레이어의 깃발 점수 올리는 로직 추가
-         */
-
         if (other.CompareTag("Player"))
         {
-            cmdGetFlag();
-            Debug.Log("깃발 점수 상승 로직 추가 필요");
+            cmdGetFlagEFF();
+            isClear = true;
+
+            flagScoreManager.cleardCheck();
         }
     }
 
+    #region EFF 네트워크 효과
+
     [Command]
-    private void cmdGetFlag()
+    private void cmdGetFlagEFF()
     {
-        RPCGetFlag();
+        RPCGetFlagEFF();
     }
 
     [ClientRpc]
-    private void RPCGetFlag()
+    private void RPCGetFlagEFF()
     {
         onGetFlag?.Invoke();
     }
@@ -46,4 +55,6 @@ public class FlagInteraction : NetworkBehaviour
         getFlagEFF.Stop();
         getFlagEFF.Play();
     }
+
+    #endregion
 }
