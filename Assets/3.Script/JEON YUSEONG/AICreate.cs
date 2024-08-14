@@ -21,6 +21,7 @@ public class AICreate : MonoBehaviour
 
     private void Start()
     {
+        aiPrefab.SetActive(false);
         // 지정된 개수만큼 AI 오브젝트를 생성합니다.
         for (int i = 0; i < numberOfAIs; i++)
         {
@@ -28,6 +29,7 @@ public class AICreate : MonoBehaviour
             Vector3 spawnPosition = generationPosition();
             GameObject aiObject = Instantiate(aiPrefab, spawnPosition, Random.rotation);
             // 생성된 AI 오브젝트에 AI 스크립트를 추가하거나 설정할 수 있습니다.
+            aiObject.SetActive(true);
             AI aiScript = aiObject.GetComponent<AI>();
             if (aiScript != null)
             {

@@ -5,17 +5,49 @@ using UnityEngine.AI;
 
 public class AI : MonoBehaviour
 {
+    public GameObject AIObject;
+    public Animator anim;
     private NavMeshAgent navMeshAgent;
     private BoxCollider rangeCollider;
-    [SerializeField] private float minWaitTime = 0f;
+    [SerializeField] private float minWaitTime = 3f;
     // 최소 대기 시간
-    [SerializeField] private float maxWaitTime = 2f;
+    [SerializeField] private float maxWaitTime = 5f;
     // 최대 대기 시간
+    public Animator DieTrigger; 
+    private bool isDead = false;
 
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         // NavMeshAgent 컴포넌트를 가져옴
+        anim = GetComponent<Animator>();
+        DieTrigger = GetComponent<Animator>();
+    }
+    private void Start()
+    {
+        Initialize(rangeCollider); // Initialize 호출
+    }
+    private void Update()
+    {
+        if (isDead) return;
+        
+        if (navMeshAgent.velocity.magnitude ==0)
+        {
+            anim.SetBool("Walk", false);
+        }
+        else
+        {
+            anim.SetBool("Walk", true);
+        }
+
+    }
+    public void Die()
+    {
+        if (isDead) return;
+
+        isDead = true;
+        DieTrigger.SetTrigger("Die");
+        StartCoroutine(DestroyAI());
     }
 
     public void Initialize(BoxCollider collider)
@@ -25,23 +57,36 @@ public class AI : MonoBehaviour
         StartCoroutine(MoveToRandomPosition());
         // 이동 코루틴을 시작
     }
-
+    private IEnumerator DestroyAI()
+    {
+        float destroyTime = 5f;
+        yield return new WaitForSeconds(destroyTime);
+        AIObject.SetActive(false);
+    }
     private IEnumerator MoveToRandomPosition()
     {
-        while (true)
+        while (!isDead)
         {
             Vector3 randomPosition = GetRandomPositionOnNavMesh();
+            transform.LookAt(randomPosition);
             navMeshAgent.SetDestination(randomPosition);
+            anim.SetBool("Walk", true);
 
-            // 에이전트가 목표 위치에 도착할 때까지 기다립니다.
             while (!navMeshAgent.pathPending && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
             {
-                yield return null; // 프레임마다 반복합니다.
+                if (isDead) yield break;
+                yield return null;
             }
 
-            // 0~maxWaitTime 사이에서 무작위 대기 시간을 선택합니다.
+            anim.SetBool("Walk", false);
             float waitTime = Random.Range(minWaitTime, maxWaitTime);
-            yield return new WaitForSeconds(waitTime); // 대기 시간을 기다립니다.
+            float elapsed = 0f;
+            while (elapsed < waitTime)
+            {
+                if (isDead) yield break;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
         }
     }
 
@@ -60,7 +105,7 @@ public class AI : MonoBehaviour
             // 위치를 찾았으면 반환한다.
         }
         else
-        {
+        { 
             return transform.position;
             // 위치를 찾지 못하였으면 에이전트가 이동하지 못하도록 현재 위치를 반환한다.
         }
