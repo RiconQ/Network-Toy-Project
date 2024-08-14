@@ -14,23 +14,53 @@ public enum SceneName
 
 public class SceneManagerEX : MonoBehaviour, IInitializable
 {
-
     public void Init()
     {
 
     }
 
     [VisibleEnum(typeof(SceneName))]
-    public void LoadScene(int sceneName)
+    public void btn_LoadScene(int sceneName) // 버튼용 씬 로드
     {
-        if ((int)SceneName.LOGIN <= sceneName && sceneName <= (int)SceneName.LEVEL)
+        switch (sceneName)
         {
-            SceneManager.LoadScene(sceneName);
-        }
+                case (int)SceneName.LOGIN:
+                SceneManager.LoadScene(sceneName);
+                break;
 
-        else
+                case (int)SceneName.LOBBY:
+                SceneManager.LoadScene(sceneName);
+                break;
+
+                case (int)SceneName.LEVEL:
+                SceneManager.LoadScene(sceneName);
+                break;
+
+                default:
+                Debug.Log("Invalid Scene이 로드 되었습니다.");
+                break;
+        }
+    }
+
+    public void LoadScene(SceneName sceneName) // 스크립트용 씬 로드
+    {
+        switch (sceneName)
         {
-            Debug.LogWarning("불러올 수 없는 씬입니다.");
+            case SceneName.LOGIN:
+                SceneManager.LoadScene((int)sceneName);
+                break;
+
+            case SceneName.LOBBY:
+                SceneManager.LoadScene((int)sceneName);
+                break;
+
+            case SceneName.LEVEL:
+                SceneManager.LoadScene((int)sceneName);
+                break;
+
+            default:
+                Debug.Log("Invalid Scene이 로드 되었습니다.");
+                break;
         }
     }
 

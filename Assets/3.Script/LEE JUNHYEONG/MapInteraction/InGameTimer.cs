@@ -8,6 +8,6 @@ public class InGameTimer : MonoBehaviour
 
     private void Update()
     {
-        time = Time.deltaTime;
+        time += Time.deltaTime;
     }
 }
