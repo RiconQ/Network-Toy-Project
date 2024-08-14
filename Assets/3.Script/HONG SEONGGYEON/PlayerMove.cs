@@ -9,7 +9,7 @@ enum PlayerType
     SCALE
 };
 
-public class PlayerMove : NetworkBehaviour
+public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
     private Transform player;
@@ -93,6 +93,7 @@ public class PlayerMove : NetworkBehaviour
 
     private void Move()
     {
+       // if(hasAu)
         if (isAttacking || isDead || isStun)
         {
         //   Debug.Log($"attack: {isAttacking}  Dead:  {isDead}  Stun: {isStun}");

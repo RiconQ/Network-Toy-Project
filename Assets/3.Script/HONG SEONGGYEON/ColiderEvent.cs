@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ColiderEvent : MonoBehaviour
 {
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -19,6 +18,10 @@ public class ColiderEvent : MonoBehaviour
             PlayerMove player= GetComponentInParent<PlayerMove>();
             Debug.Log("AI ¶§¸²");
             player.StartCoroutine(player.Stun_co());
+
+            AI ai = other.GetComponentInParent<AI>();
+            ai.Die();
+
         }
     }
 
