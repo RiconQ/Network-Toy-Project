@@ -16,16 +16,16 @@ public class FlagScoreManager : MonoBehaviour
         flags = GetComponentsInChildren<FlagInteraction>();
     }
 
-    public bool isCleard()
+    public void cleardCheck()
     {
         for (int i = 0; i < flags.Length; i++)
         {
-            if (flags[i].isClear == false)
+            if (!flags[i].isClear)
             {
-                return false;
+                return;
             }
         }
 
-        return true;
+        Managers.Instance.gameManager.ShowGameOver();
     }
 }

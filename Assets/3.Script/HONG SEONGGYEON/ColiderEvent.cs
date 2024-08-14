@@ -19,8 +19,8 @@ public class ColiderEvent : MonoBehaviour
             Debug.Log("AI ¶§¸²");
             player.StartCoroutine(player.Stun_co());
 
-            AI ai = other.GetComponentInParent<AI>();
-            ai.Die();
+           AI ai = other.GetComponentInParent<AI>();
+          ai.Die();
 
         }
     }

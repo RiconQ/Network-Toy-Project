@@ -31,11 +31,8 @@ public class FlagInteraction : NetworkBehaviour
         {
             cmdGetFlagEFF();
             isClear = true;
-            
-            if (flagScoreManager.isCleard())
-            {
-                //GameManager.instance.ShowGameOver(true);
-            }
+
+            flagScoreManager.cleardCheck();
         }
     }
 
