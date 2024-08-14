@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class LoginController : MonoBehaviour
 {
@@ -93,21 +94,23 @@ public class LoginController : MonoBehaviour
         //로그인 창이라면 로그인 로직, 로그인 성공시 로그인 창 비활성화 후 메인메뉴 로그인 버튼 비활성화
         else
         {
-            //로그인 로직
-
-
+            //로그인 로직                        
+            string exceptionMessage;
+            bool isLoginSucess = Managers.Instance.Database.LoginUser(_loginEmail.text, _loginPassword.text, out exceptionMessage);
             //로그인 성공시 로그인 창 비활성화 후 메인메뉴 로그인 버튼 비활성화
-            //if(로그인 성공)
-            Close();
-            _logigBtnObj.SetActive(false);
-
-            /*
+            
+            // 로그인 성공
+            if (isLoginSucess)
+            {
+                Close();
+                _logigBtnObj.SetActive(false);
+                PrintLog(exceptionMessage);
+            }            
             else
             {
                 //로그인 실패 Log 출력
                 _logText.text = "로그인 실패";
-            }
-            */
+            }           
         }
     }
 
@@ -119,17 +122,24 @@ public class LoginController : MonoBehaviour
         // 회원가입 창이라면 회원가입 로직, 이후 로그인 창으로
         if (_isRegister)
         {
+            Debug.Log("계정 생성 클릭됨");
             //회원가입 로직
+            string exceptionMessage;            
+            bool isCreateSucess = Managers.Instance.Database.CreateUser(_registerEmail.text, _registerUserName.text, _registerPassword.text, out exceptionMessage);
 
-
-
-            //회원가입 성공시 로그인 창으로 전환
-            _registerContainer.SetActive(false);
-            _loginContainer.SetActive(true);
-
-            _title.text = "로그인";
-            _iconIMG.sprite = _icons[0];
-            _isRegister = false;
+            if (isCreateSucess)
+            {
+                //회원가입 성공시 로그인 창으로 전환
+                _registerContainer.SetActive(false);
+                _loginContainer.SetActive(true);
+                _title.text = "로그인";
+                _iconIMG.sprite = _icons[0];
+                _isRegister = false;
+            }            
+            else
+            {
+                PrintLog(exceptionMessage);
+            }
         }
         // 로그인 창이라면 회원가입 모드로 전환
         else

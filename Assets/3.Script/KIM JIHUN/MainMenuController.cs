@@ -44,7 +44,7 @@ public class MainMenuController : MonoBehaviour
     /// </summary>
     private void GameStart()
     {
-        ShowLog();
+        // ShowLog();
     }
 
 
