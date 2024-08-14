@@ -9,7 +9,7 @@ enum PlayerType
     SCALE
 };
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : NetworkBehaviour
 {
     [SerializeField]
     private Transform player;
@@ -69,6 +69,7 @@ public class PlayerMove : MonoBehaviour
 
     private void LookAround()
     {
+        if (!isLocalPlayer) return;
         Vector2 mouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         Vector3 camAngle = camerArm.rotation.eulerAngles;
         float x = camAngle.x - mouse.y;
@@ -93,7 +94,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Move()
     {
-       // if(hasAu)
+        if (!isLocalPlayer) return;
         if (isAttacking || isDead || isStun)
         {
         //   Debug.Log($"attack: {isAttacking}  Dead:  {isDead}  Stun: {isStun}");
@@ -132,6 +133,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Jump()
     {
+        if (!isLocalPlayer) return;
         if (isAttacking || isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
@@ -155,6 +157,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Attack()
     {
+        if (!isLocalPlayer) return;
         if (isJumping || isDead || isStun) return;
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
@@ -192,6 +195,7 @@ public class PlayerMove : MonoBehaviour
 
     public void UseSkill()
     {
+        if (!isLocalPlayer) return;
         if (isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextSkillTime)  // 스킬 쿨타임 체크
         {
