@@ -22,6 +22,7 @@ public class LoginController : MonoBehaviour
     [SerializeField] private Button _closeBTN;
     [SerializeField] private Button _loginBTN;
     [SerializeField] private Button _registerBTN;
+    [SerializeField] private Button _startGameBTN;
 
     [Header("Register Text")]
     [SerializeField] private TMP_InputField _registerEmail;
@@ -32,7 +33,10 @@ public class LoginController : MonoBehaviour
     [SerializeField] private GameObject _loginContainer;
     [SerializeField] private GameObject _registerContainer;
     [SerializeField] private GameObject _popupObj;
-    [SerializeField] private GameObject _logigBtnObj;
+
+    [Header("ObjBtn")]
+    [SerializeField] private GameObject _loginBtnObj;    
+    [SerializeField] private GameObject _startGameBtnObj;
 
     private bool _isRegister = false;
 
@@ -84,7 +88,7 @@ public class LoginController : MonoBehaviour
         if (_isRegister)
         {
             _registerContainer.SetActive(false);
-            _loginContainer.SetActive(true);
+            _loginContainer.SetActive(true);            
 
             _title.text = "로그인";
             _iconIMG.sprite = _icons[0];
@@ -96,14 +100,15 @@ public class LoginController : MonoBehaviour
         {
             //로그인 로직                        
             string exceptionMessage;
-            bool isLoginSucess = DatabaseManager.Instance.LoginUser(_loginEmail.text, _loginPassword.text, out exceptionMessage);
+            bool isLoginSucess = Managers.Instance.Database.LoginUser(_loginEmail.text, _loginPassword.text, out exceptionMessage);
             //로그인 성공시 로그인 창 비활성화 후 메인메뉴 로그인 버튼 비활성화
             
             // 로그인 성공
             if (isLoginSucess)
             {
                 Close();
-                _logigBtnObj.SetActive(false);
+                _loginBtnObj.SetActive(false);
+                _startGameBtnObj.SetActive(true);
                 PrintLog(exceptionMessage);
             }            
             else
@@ -122,10 +127,9 @@ public class LoginController : MonoBehaviour
         // 회원가입 창이라면 회원가입 로직, 이후 로그인 창으로
         if (_isRegister)
         {
-            Debug.Log("계정 생성 클릭됨");
             //회원가입 로직
             string exceptionMessage;            
-            bool isCreateSucess = DatabaseManager.Instance.CreateUser(_registerEmail.text, _registerUserName.text, _registerPassword.text, out exceptionMessage);
+            bool isCreateSucess = Managers.Instance.Database.CreateUser(_registerEmail.text, _registerUserName.text, _registerPassword.text, out exceptionMessage);
 
             if (isCreateSucess)
             {
