@@ -65,6 +65,7 @@ public class AI : MonoBehaviour
     }
     private IEnumerator MoveToRandomPosition()
     {
+        if (isDead) yield break;
         while (!isDead)
         {
             Vector3 randomPosition = GetRandomPositionOnNavMesh();
