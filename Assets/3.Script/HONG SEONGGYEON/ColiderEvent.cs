@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ColiderEvent : MonoBehaviour
 {
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
