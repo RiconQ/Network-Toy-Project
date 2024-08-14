@@ -397,12 +397,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3805851622040829530}
-  - component: {fileID: 3449902911362681092}
   - component: {fileID: 1546728777261759178}
   - component: {fileID: 4460923062142212087}
   - component: {fileID: 1238964551114873044}
+  - component: {fileID: 5138698765244103704}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player_Net
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -425,26 +425,6 @@ Transform:
   - {fileID: 4605775404352308520}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3449902911362681092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891306467516807610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fefc11a330e9f84b85c04933e2d2ec0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  player: {fileID: 1047377754407957432}
-  camerArm: {fileID: 4605775404352308520}
-  walkSpeed: 5
-  runSpeed: 8
-  colider: {fileID: 2047166535543135109}
 --- !u!114 &1546728777261759178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,7 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2289525433
+  _assetId: 570708554
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -513,6 +493,26 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &5138698765244103704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891306467516807610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fefc11a330e9f84b85c04933e2d2ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  player: {fileID: 1047377754407957432}
+  camerArm: {fileID: 4605775404352308520}
+  walkSpeed: 5
+  runSpeed: 8
+  colider: {fileID: 2047166535543135109}
 --- !u!1 &2047166535543135109
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +530,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5242122109888440940
 Transform:
   m_ObjectHideFlags: 0
@@ -1651,8 +1651,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
