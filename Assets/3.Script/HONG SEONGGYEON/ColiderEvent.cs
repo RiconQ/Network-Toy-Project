@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class ColiderEvent : MonoBehaviour
 {
-
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
+            PlayerMove otherPlayer = other.GetComponentInParent<PlayerMove>();
             Debug.Log("Player 때림");
-            PlayerMove player = other.GetComponentInParent<PlayerMove>();
-            player.Die();
+            otherPlayer.Die();
         }
 
-        if(other.CompareTag("AI"))
+        if (other.CompareTag("AI"))
         {
+            PlayerMove player= GetComponentInParent<PlayerMove>();
             Debug.Log("AI 때림");
+            player.StartCoroutine(player.Stun_co());
+
+            AI ai = other.GetComponentInParent<AI>();
+            ai.Die();
+
         }
     }
 
