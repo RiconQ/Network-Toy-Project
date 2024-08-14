@@ -45,7 +45,7 @@ public class DatabaseSessionData
     }
 }
 
-public class DatabaseManager : BaseSingleton<DatabaseManager>
+public class DatabaseManager : MonoBehaviour, IInitializable
 {
     public MySqlConnection DatabaseConnection { get; private set; }
     public MySqlDataReader DatabaseReader { get; private set; }
@@ -57,16 +57,9 @@ public class DatabaseManager : BaseSingleton<DatabaseManager>
     private readonly string _databasePath = Application.dataPath + "/Database";
     private readonly string _filePath = "/config.json";
 
-    private DatabaseSessionData _databaseSession;
+    private DatabaseSessionData _databaseSession;    
 
-    protected override void Awake()
-    {
-        base.Awake();
-
-        Init();
-    }
-
-    private void Init()
+    public void Init()
     {
         string serverDatabaseSessionDataInfo = SetServerDatabaseSessionData();
         try

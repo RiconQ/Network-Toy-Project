@@ -96,7 +96,7 @@ public class LoginController : MonoBehaviour
         {
             //로그인 로직                        
             string exceptionMessage;
-            bool isLoginSucess = DatabaseManager.Instance.LoginUser(_loginEmail.text, _loginPassword.text, out exceptionMessage);
+            bool isLoginSucess = Managers.Instance.Database.LoginUser(_loginEmail.text, _loginPassword.text, out exceptionMessage);
             //로그인 성공시 로그인 창 비활성화 후 메인메뉴 로그인 버튼 비활성화
             
             // 로그인 성공
@@ -125,7 +125,7 @@ public class LoginController : MonoBehaviour
             Debug.Log("계정 생성 클릭됨");
             //회원가입 로직
             string exceptionMessage;            
-            bool isCreateSucess = DatabaseManager.Instance.CreateUser(_registerEmail.text, _registerUserName.text, _registerPassword.text, out exceptionMessage);
+            bool isCreateSucess = Managers.Instance.Database.CreateUser(_registerEmail.text, _registerUserName.text, _registerPassword.text, out exceptionMessage);
 
             if (isCreateSucess)
             {
