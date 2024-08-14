@@ -5441,7 +5441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &491851752
 Transform:
   m_ObjectHideFlags: 0
@@ -5764,7 +5764,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1813738129}
-  camerArm: {fileID: 491851752}
+  camerArm: {fileID: 350895520}
   walkSpeed: 0
   runSpeed: 0
   colider: {fileID: 599827599}
@@ -26791,7 +26791,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1546728777261759178, guid: 4cfa3d7caa6054d4d87a14087d8f4d98, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
