@@ -505,9 +505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fefc11a330e9f84b85c04933e2d2ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
   player: {fileID: 1047377754407957432}
   camerArm: {fileID: 4605775404352308520}
   walkSpeed: 5
@@ -579,6 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645e4dd75d37edc42a2351c2f0a29a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obj: {fileID: 2047166535543135109}
 --- !u!1 &2128106796893898416
 GameObject:
   m_ObjectHideFlags: 0

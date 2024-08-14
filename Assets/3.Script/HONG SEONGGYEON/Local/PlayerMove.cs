@@ -24,7 +24,7 @@ public class PlayerMove : NetworkBehaviour
 
     private bool isJumping = false;
     private bool isAttacking = false;
-    private bool isDead = false;
+    public bool isDead = false;
     private bool isUsingSkill = false;
     private bool isStun = false;
   //  private bool canUseSkill = true;
