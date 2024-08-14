@@ -9,7 +9,7 @@ enum PlayerType
     SCALE
 };
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : NetworkBehaviour
 {
     [SerializeField]
     private Transform player;
