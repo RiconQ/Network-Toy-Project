@@ -8,9 +8,9 @@ public enum SceneName
 {
     LOGIN = 0,
     LOBBY = 1,
-    LEVEL = 2
+    ROOM = 2,
+    LEVEL = 3
 };
-
 
 public class SceneManagerEX : MonoBehaviour, IInitializable
 {
@@ -21,11 +21,11 @@ public class SceneManagerEX : MonoBehaviour, IInitializable
     }
 
     [VisibleEnum(typeof(SceneName))]
-    public void LoadScene(int sceneName)
+    public void LoadScene(SceneName sceneName)
     {
-        if ((int)SceneName.LOGIN <= sceneName && sceneName <= (int)SceneName.LEVEL)
+        if (SceneName.LOGIN <= sceneName && sceneName <= SceneName.LEVEL)
         {
-            SceneManager.LoadScene(sceneName);
+            SceneManager.LoadScene(sceneName.ToString());
         }
 
         else

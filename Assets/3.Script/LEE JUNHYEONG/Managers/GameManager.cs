@@ -6,17 +6,18 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour, IInitializable
 {
     public static GameManager instance;
-
-    [SerializeField] private  InGameTimer inGameTimer;
+    
+    [SerializeField] private  InGameTimer inGameTimer;    
 
     MixerData defaultMixerData; // 믹서 기본값
     MixerData mixerData; // 자정되는 믹서
 
-    private string mixerPath = Application.streamingAssetsPath + "MixerData.Json";
+    private string mixerPath = Application.streamingAssetsPath + "MixerData.Json"; // config.ini(Initialization)
 
     public void Init()
     {
