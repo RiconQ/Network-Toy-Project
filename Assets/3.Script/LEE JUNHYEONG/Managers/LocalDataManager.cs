@@ -13,6 +13,7 @@ public class LocalDataManager : MonoBehaviour
     MixerData defaultData; // 믹서 기본값
     MixerData mixerData; // 저장되는 믹서
     ResultTimeData timeData; // 최고 기록
+
     private string mixerPath = Application.streamingAssetsPath + "MixerData.Json";
     private string timePath = Application.streamingAssetsPath + "TimeData.Json";
 
@@ -72,7 +73,6 @@ public class LocalDataManager : MonoBehaviour
 
     public void SaveResult() // 게임 종료 이벤트에 등록 (최고 기록만)
     {
-
         if (File.Exists(timePath))
         {
             string JsonDataString = File.ReadAllText(timePath);
@@ -101,6 +101,11 @@ public class LocalDataManager : MonoBehaviour
         resultTimeData = JsonUtility.FromJson<ResultTimeData>(JsonDataString);
 
         return resultTimeData;
+    }
+
+    public void Init()
+    {
+        throw new NotImplementedException();
     }
 }
 
