@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
-    public DatabaseManager Database { get; private set; }
-    public MirrorNetworkManager Network { get; private set; }
-    public SceneManagerEX sceneManager { get; private set; }
-    public GameManager gameManager { get; private set; }
+    public DatabaseManager Database { get; private set; }    
+    public SceneManagerEX Scene { get; private set; }
+    public GameManager Game { get; private set; }
 
     #region Set Singleton
     public static Managers Instance { get; private set; }
@@ -44,16 +43,13 @@ public class Managers : MonoBehaviour
     private void InitManagers()
     {
         // DatabaseManager 초기화
-        Database = InitManager<DatabaseManager>();
-
-        // MirrorNetworkManager 초기화
-        Network = InitManager<MirrorNetworkManager>();
+        Database = InitManager<DatabaseManager>();        
 
         // SceneManagerEX 초기화
-        sceneManager = InitManager<SceneManagerEX>();
+        Scene = InitManager<SceneManagerEX>();
 
         // GameManager 초기화
-        gameManager = InitManager<GameManager>();
+        Game = InitManager<GameManager>();
     }
 
     private T InitManager<T>() where T : MonoBehaviour

@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour, IInitializable
 
     MixerData defaultMixerData; // 믹서 기본값
     MixerData mixerData; // 자정되는 믹서
-
     private string mixerPath = Application.streamingAssetsPath + "MixerData.Json"; // 믹서 데이터 저장 경로
 
     public event Action gameOverEvents; // 게임 종료 이벤트 변수
