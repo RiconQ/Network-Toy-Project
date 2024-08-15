@@ -122,11 +122,11 @@ public class GameManager : MonoBehaviour, IInitializable
 [Serializable]
 public class MixerData
 {
-    public float SFX { get; private set; }
+    public float SFX;
 
-    public float BGM { get; private set; }
+    public float BGM;
 
-    public float master { get; private set; }
+    public float master;
 
     public MixerData(float _sfx, float _bgm, float _master)
     {

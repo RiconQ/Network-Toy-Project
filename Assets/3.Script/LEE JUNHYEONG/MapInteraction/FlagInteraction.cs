@@ -19,7 +19,7 @@ public class FlagInteraction : NetworkBehaviour
         flagScoreManager = GetComponentInParent<FlagScoreManager>();
     }
 
-    public override void OnStartAuthority()
+    public override void OnStartAuthority() // 플래그 로직 추가
     {
         onGetFlag += PlayEFF;
     }
@@ -31,7 +31,6 @@ public class FlagInteraction : NetworkBehaviour
         {
             cmdGetFlagEFF();
             isClear = true;
-
             flagScoreManager.cleardCheck();
         }
     }
