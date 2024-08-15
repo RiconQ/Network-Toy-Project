@@ -43,7 +43,7 @@ public class Player_Test : NetworkBehaviour
     }
 
     private void Start()
-    {
+    {if (!isLocalPlayer) return;
         player_Ani = player.GetComponent<Animator>();
         rb = player.GetComponent<Rigidbody>();
         player_Ani.SetBool("isWalk", false);
