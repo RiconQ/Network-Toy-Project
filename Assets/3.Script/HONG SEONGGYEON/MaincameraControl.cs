@@ -4,16 +4,19 @@ using Mirror;
 
 public class MaincameraControl : NetworkBehaviour
 {
-    public override void OnStartLocalPlayer()
-    {
-        GetComponentInChildren<AudioListener>().enabled = true;
-    }
+    public GameObject playerCamera;
 
-    public override void OnStartClient()
+    void Start()
     {
-        if (!isLocalPlayer)
+        if (isLocalPlayer)
         {
-            GetComponentInChildren<AudioListener>().enabled = false;
+            playerCamera.SetActive(true);
+            GetComponent<AudioListener>().enabled = true;
+        }
+        else
+        {
+            playerCamera.SetActive(false);
+            GetComponent<AudioListener>().enabled = false;
         }
     }
 }

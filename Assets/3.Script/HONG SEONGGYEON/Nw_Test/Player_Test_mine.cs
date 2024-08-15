@@ -39,7 +39,7 @@ public class Player_Test_mine : NetworkBehaviour
     Animator player_Ani;
 
     private void Start()
-    {
+    {if (!isLocalPlayer) return;
         player_Ani = player.GetComponent<Animator>();
         rb = player.GetComponent<Rigidbody>();
         player_Ani.SetBool("isWalk", false);
@@ -53,6 +53,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     private void Update()
     {
+      //  if (!isLocalPlayer) return;
         //player_Ani.SetBool("isWalk", false);  // Idle
         if (isStun) return;
         LookAround();
@@ -64,6 +65,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     private void FixedUpdate()  // 카메라 흔들림 방지..
     {
+      //  if (!isLocalPlayer) return;
         Move();
     }
 
@@ -133,7 +135,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     private void Jump()
     {
-            if (!isLocalPlayer) return;
+           if (!isLocalPlayer) return;
         if (isAttacking || isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
@@ -157,7 +159,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     private void Attack()
     {
-          if (!isLocalPlayer) return;
+         if (!isLocalPlayer) return;
         if (isJumping || isDead || isStun) return;
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
@@ -186,7 +188,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     public void Die()
     {
-        if (!isLocalPlayer) return;
+       if (!isLocalPlayer) return;
         if (!isDead)
         {
             player_Ani.SetTrigger("isDead");
