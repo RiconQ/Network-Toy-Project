@@ -27,24 +27,24 @@ public class PlayerMove : NetworkBehaviour
     public bool isDead = false;
     private bool isUsingSkill = false;
     private bool isStun = false;
-  //  private bool canUseSkill = true;
+    //  private bool canUseSkill = true;
 
     private float skillCooldown = 20.0f;  // 스킬 쿨타임
     private float nextSkillTime = 0f;     // 다음 스킬 사용 가능 시간
 
 
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
     public GameObject colider;
     private PlayerType playerType;
-    Animator player_Ani;
+    [SerializeField] private Animator player_Ani;
 
     private void Start()
     {
         // [서버 로직]
         if (!isLocalPlayer) return; // 로컬 플레이어가 아니면 아무것도 하지 않음
 
-        player_Ani = player.GetComponent<Animator>();
-        rb = player.GetComponent<Rigidbody>();
+        //player_Ani = player.GetComponent<Animator>();
+        //rb = player.GetComponent<Rigidbody>();
         player_Ani.SetBool("isWalk", false);
 
         int choosePlayer = Random.Range(0, 2);
@@ -75,7 +75,7 @@ public class PlayerMove : NetworkBehaviour
 
     private void LookAround()
     {
-       // if (!isLocalPlayer) return;
+        // if (!isLocalPlayer) return;
         Vector2 mouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         Vector3 camAngle = camerArm.rotation.eulerAngles;
         float x = camAngle.x - mouse.y;
@@ -100,10 +100,10 @@ public class PlayerMove : NetworkBehaviour
 
     private void Move()
     {
-      //  if (!isLocalPlayer) return;
+        //  if (!isLocalPlayer) return;
         if (isAttacking || isDead || isStun)
         {
-        //   Debug.Log($"attack: {isAttacking}  Dead:  {isDead}  Stun: {isStun}");
+            //   Debug.Log($"attack: {isAttacking}  Dead:  {isDead}  Stun: {isStun}");
             return;
         }
 
@@ -139,7 +139,7 @@ public class PlayerMove : NetworkBehaviour
 
     private void Jump()
     {
-    //    if (!isLocalPlayer) return;
+        //    if (!isLocalPlayer) return;
         if (isAttacking || isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
@@ -163,7 +163,7 @@ public class PlayerMove : NetworkBehaviour
 
     private void Attack()
     {
-      //  if (!isLocalPlayer) return;
+        //  if (!isLocalPlayer) return;
         if (isJumping || isDead || isStun) return;
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
@@ -201,7 +201,7 @@ public class PlayerMove : NetworkBehaviour
 
     public void UseSkill()
     {
-     //   if (!isLocalPlayer) return;
+        //   if (!isLocalPlayer) return;
         if (isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextSkillTime)  // 스킬 쿨타임 체크
         {
