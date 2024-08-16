@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem.Switch;
-using static ParticleControl;
 using Mirror;
 
 public enum ParticleName
@@ -16,7 +15,7 @@ public enum ParticleName
     SCALE
 }
 
-public class ParticleControl : NetworkBehaviour
+public class SkillEFF : NetworkBehaviour
 {
     /*
      * 스킬을 누르면 enum 값으로 맞는 스킬을 배열에 index로 접근하여 활성 / 비활성
@@ -32,20 +31,20 @@ public class ParticleControl : NetworkBehaviour
 
     private static event Action<Vector3,Vector3> OnHit;
     private static event Action<ParticleName> OnSkill;
-    private Collider _collider;
+    private Collider thisCollider;
 
     #endregion
 
     private void Start()
     {
-        _collider = GetComponent<Collider>();
+        thisCollider = GetComponent<Collider>();
     }
 
-    public override void OnStartAuthority()
+    public override void OnStartAuthority() 
     {
-        Debug.Log("권한 부여 완료");
         OnHit += HitEFF;
         OnSkill += StartEFFByState;
+        // 서버에서 사용할 메서드들 등록
     }
 
     #region 스킬 시전 메서드
@@ -119,17 +118,17 @@ public class ParticleControl : NetworkBehaviour
     [Client]
     private void OnTriggerEnter(Collider other)
     {
-        if (other.name.Equals("Weapon"))
+        if (other.name.Equals("AttackColider") && !other.transform.parent.Equals(transform.parent))
         {
             Debug.Log("충돌용 태그 사용 필요");
-            CMDHandle(_collider.ClosestPoint(other.transform.position), other.ClosestPoint((2 * other.transform.position) - transform.position));
+            CMDHandle(thisCollider.ClosestPoint(other.transform.position), other.ClosestPoint((2 * other.transform.position) - transform.position));
         }
     }
 
     //*********************************************************************************************
     #endregion
 
-    public void StartSoundByEFFState(ParticleName state)
+    public void StartSoundByEFFState(ParticleName state) // 사운드 시전 메소드
     {
         PlayerAudio.clip = audioClips[(int)state];
         PlayerAudio.Play();
