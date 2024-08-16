@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Mirror;
 
-public class AI : MonoBehaviour
+public class AI : NetworkBehaviour
 {
     public GameObject AIObject;
     public Animator anim;
@@ -13,7 +14,7 @@ public class AI : MonoBehaviour
     // 최소 대기 시간
     [SerializeField] private float maxWaitTime = 5f;
     // 최대 대기 시간
-    public Animator DieTrigger; 
+    public Animator DieTrigger;
     private bool isDead = false;
 
     private void Awake()
@@ -30,8 +31,8 @@ public class AI : MonoBehaviour
     private void Update()
     {
         if (isDead) return;
-        
-        if (navMeshAgent.velocity.magnitude ==0)
+
+        if (navMeshAgent.velocity.magnitude == 0)
         {
             anim.SetBool("Walk", false);
         }
@@ -64,7 +65,8 @@ public class AI : MonoBehaviour
         AIObject.SetActive(false);
     }
     private IEnumerator MoveToRandomPosition()
-    {if (isDead) yield break;
+    {
+        if (isDead) yield break;
         while (!isDead)
         {
             Vector3 randomPosition = GetRandomPositionOnNavMesh();
@@ -105,7 +107,7 @@ public class AI : MonoBehaviour
             // 위치를 찾았으면 반환한다.
         }
         else
-        { 
+        {
             return transform.position;
             // 위치를 찾지 못하였으면 에이전트가 이동하지 못하도록 현재 위치를 반환한다.
         }

@@ -29,6 +29,7 @@ public class FlagInteraction : NetworkBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("깃발에 플레이어 콜라이더 Enter");
             cmdGetFlagEFF();
             isClear = true;
             flagScoreManager.cleardCheck();
@@ -37,7 +38,7 @@ public class FlagInteraction : NetworkBehaviour
 
     #region EFF 네트워크 효과
 
-    [Command]
+    [Command(requiresAuthority = false)]
     private void cmdGetFlagEFF()
     {
         RPCGetFlagEFF();

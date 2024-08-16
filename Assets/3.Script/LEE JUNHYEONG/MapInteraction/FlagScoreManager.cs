@@ -4,10 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 
-public class FlagScoreManager : MonoBehaviour
+public class FlagScoreManager : NetworkBehaviour
 {
     private FlagInteraction[] flags;
+
+    public override void OnStartAuthority()
+    {
+        this.gameObject.SetActive(true);
+    }
 
     private void Start()
     {
@@ -26,6 +32,7 @@ public class FlagScoreManager : MonoBehaviour
             }
         }
 
-        //Managers.Instance.gameManager.ShowGameOver();
+        Debug.Log("标惯 铰府 飘府芭 劝己拳");
+        //Managers.Instance.Game.GetComponentInChildren<GameManagerNetwork>().ShowGameOver(GameOverState.WIN_FLAG);
     }
 }

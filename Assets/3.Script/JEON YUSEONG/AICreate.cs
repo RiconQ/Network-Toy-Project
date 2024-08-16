@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class AICreate : MonoBehaviour
+public class AICreate : NetworkBehaviour
 {
     [SerializeField] private GameObject aiPrefab;
     // 생성할 AI 오브젝트의 프리팹
     [SerializeField] private GameObject rangeObject;
     // 맵의 범위를 정의하는 오브젝트
-    [SerializeField] private int numberOfAIs = 1;
+    [SerializeField] private int numberOfAIs = 60;
     // 생성할 AI 오브젝트의 개수
 
     private BoxCollider rangeCollider;
@@ -21,6 +22,9 @@ public class AICreate : MonoBehaviour
 
     private void Start()
     {
+        if (!isServer)
+            return;
+
         aiPrefab.SetActive(false);
         // 지정된 개수만큼 AI 오브젝트를 생성합니다.
         for (int i = 0; i < numberOfAIs; i++)
@@ -30,6 +34,7 @@ public class AICreate : MonoBehaviour
             GameObject aiObject = Instantiate(aiPrefab, spawnPosition, Random.rotation);
             // 생성된 AI 오브젝트에 AI 스크립트를 추가하거나 설정할 수 있습니다.
             aiObject.SetActive(true);
+             NetworkServer.Spawn(aiObject);
             AI aiScript = aiObject.GetComponent<AI>();
             if (aiScript != null)
             {
