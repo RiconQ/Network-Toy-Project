@@ -8,15 +8,10 @@ public class MaincameraControl : NetworkBehaviour
 
     void Start()
     {
-        if (isLocalPlayer)
-        {
-            playerCamera.SetActive(true);
-            GetComponent<AudioListener>().enabled = true;
-        }
-        else
+        if (!isLocalPlayer)
         {
             playerCamera.SetActive(false);
-            GetComponent<AudioListener>().enabled = false;
+            playerCamera.GetComponent<AudioListener>().enabled = false;
         }
     }
 }
