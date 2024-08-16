@@ -13,6 +13,8 @@ public class Build_RoomPlayerMover : NetworkBehaviour
     [SerializeField] private GameObject cameraArm;
     [SerializeField] private Animator animator;
 
+    //public Transform parent;
+
     private void Start()
     {
         if (isOwned)
@@ -48,7 +50,8 @@ public class Build_RoomPlayerMover : NetworkBehaviour
                 Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
 
                 player.forward = moveDir;
-                transform.position += moveDir * Time.deltaTime * moveSpeed;
+                player.position += moveDir * Time.deltaTime * moveSpeed;
+                //this.parent.transform.position = transform.position;
             }
             else
             {

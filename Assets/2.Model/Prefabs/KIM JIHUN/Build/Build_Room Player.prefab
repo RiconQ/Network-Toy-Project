@@ -970,7 +970,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: a58e60c9e650511488c413ec24294457, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1476,6 +1476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9059147520759324292}
   - component: {fileID: 254313713403897192}
+  - component: {fileID: 4845020682975409765}
   m_Layer: 0
   m_Name: CameraArm
   m_TagString: Untagged
@@ -1491,7 +1492,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5622587294609358756}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0.038}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1505,13 +1506,30 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5622587294609358756}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b09b674d3323a7e4eb7f534b9c99f791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   target: {fileID: 3398908736178500490}
   offset: {x: 0, y: 0.75, z: 0.2}
+--- !u!114 &4845020682975409765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5622587294609358756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5b7830fd8b459d4f8b63a7532cdf61a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 4412269535675454430}
+  offset: {x: 0, y: 0.75, z: 0}
 --- !u!1 &5670090572808566405
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,11 +2306,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8892711678830518331}
-  - component: {fileID: 330407350275526333}
   - component: {fileID: 3769979684009251526}
   - component: {fileID: 4801890086088173984}
   - component: {fileID: 7461469557119367515}
   - component: {fileID: 3465429269856036879}
+  - component: {fileID: 981096653252251842}
   m_Layer: 0
   m_Name: Build_Room Player
   m_TagString: Untagged
@@ -2317,26 +2335,6 @@ Transform:
   - {fileID: 9059147520759324292}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &330407350275526333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8833898132821601213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b3c6e7bdaea6a54c98f6d55febd86eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  isMoveable: 1
-  moveSpeed: 5
-  player: {fileID: 3398908736178500490}
-  cameraArm: {fileID: 5622587294609358756}
-  animator: {fileID: 1407639267085320}
 --- !u!114 &3769979684009251526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2413,7 +2411,7 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  target: {fileID: 8892711678830518331}
+  target: {fileID: 3398908736178500490}
   syncPosition: 1
   syncRotation: 1
   syncScale: 0
@@ -2432,6 +2430,26 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &981096653252251842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833898132821601213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b3c6e7bdaea6a54c98f6d55febd86eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  isMoveable: 1
+  moveSpeed: 5
+  player: {fileID: 3398908736178500490}
+  cameraArm: {fileID: 5622587294609358756}
+  animator: {fileID: 1407639267085320}
 --- !u!1 &8991080863061768771
 GameObject:
   m_ObjectHideFlags: 0
