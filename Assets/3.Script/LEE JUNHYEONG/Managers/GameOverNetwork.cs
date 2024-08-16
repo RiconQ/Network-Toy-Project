@@ -6,12 +6,13 @@ using Mirror;
 public class GameOverNetwork : NetworkBehaviour
 {
     [Client]
-    public void ShowGameOver() // 게임 종료 시 호출
+    public void ShowGameOver(GameOverState overState) // 게임 종료 시 호출
     {
         /*
          * gameOver UI 출력
          * 이벤트 호출
          */
+        Managers.Instance.Game.gameOverState = overState;
         cmdShowGameOver();
     }
 
@@ -24,6 +25,6 @@ public class GameOverNetwork : NetworkBehaviour
     [ClientRpc]
     private void RPCShowGameOver()
     {
-        GetComponentInParent<GameManager>().ShowGameOver();
+        Managers.Instance.Game.ShowGameOver();
     }
 }
