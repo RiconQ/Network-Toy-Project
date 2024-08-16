@@ -24,7 +24,6 @@ public enum GameOverState
 public class GameManager : MonoBehaviour, IInitializable
 {
     [SerializeField] private  InGameTimer inGameTimer; // 타이머 변수
-    [SerializeField] public GameManagerNetwork gameManagerNetwork; // 네트워크 게임 메니저
     public GameOverState gameOverState = GameOverState.LOSE; // 게임 종료 상태 변수
 
     public MixerData defaultMixerData { get; private set; } // 믹서 기본값
@@ -53,9 +52,6 @@ public class GameManager : MonoBehaviour, IInitializable
             Debug.Log(g.transform.position);
             inGameTimer = g.AddComponent<InGameTimer>();
 
-            gameManagerNetwork = Instantiate((GameObject)Resources.Load("LEE JUNHYEONG/prefabs/GameNetwork"))
-                .GetComponent<GameManagerNetwork>();
-
             gameOverState = GameOverState.LOSE;
         }
     }
@@ -65,18 +61,27 @@ public class GameManager : MonoBehaviour, IInitializable
         if (inGameTimer != null)
             Destroy(inGameTimer.gameObject);
 
-        if(gameManagerNetwork != null)
-            Destroy(gameManagerNetwork.gameObject);
-
             gameOverState = GameOverState.LOSE;
     }
 
-    public void ShowGameOver() // 게임 종료 시 호출
+    public void ShowGameOver(GameOverState overState, bool _isLocalPlayer) // 게임 종료 Client RPC에서 호출
     {
         /*
          * 게임 메니저 하위에 있는 게임오버 네트워크라는 메소드에서 이를 호출합니다.
          * gameOverEvents 에 종료 이벤트를 저장하면 해당 메소드에서 이를 수행합니다.
          */
+
+        if (_isLocalPlayer)
+        {
+            gameOverState = overState;
+        }
+
+        else
+        {
+            gameOverState = GameOverState.LOSE;
+        }
+
+        Debug.Log($"현재 게임 오버 상태 {gameOverState}");
 
         gameOverEvents?.Invoke(gameOverState);
     }

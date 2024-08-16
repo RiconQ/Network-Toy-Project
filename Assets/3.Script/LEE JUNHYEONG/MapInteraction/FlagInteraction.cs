@@ -3,27 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Unity.VisualScripting;
 public class FlagInteraction : NetworkBehaviour
 {
     [SerializeField]private ParticleSystem getFlagEFF;
-    [SerializeField]private FlagScoreManager flagScoreManager;
-
-    private static Action onGetFlag;
-
-    public bool isClear { get; private set; }
+    [SerializeField] private AudioClip getFlagSound;
+    private List<uint> gotPlayers;
+    private AudioSource AudioSource;
 
     private void Start()
     {
-        isClear = false;
-        flagScoreManager = GetComponentInParent<FlagScoreManager>();
+        gotPlayers = new List<uint>();
+        AudioSource = GetComponent<AudioSource>();
     }
 
-    public override void OnStartAuthority() // 플래그 로직 추가
-    {
-        onGetFlag += PlayEFF;
-    }
-
-    
     private void OnTriggerEnter(Collider other)
     {
         if (!isServer)
@@ -35,29 +28,39 @@ public class FlagInteraction : NetworkBehaviour
         {
             if (other.CompareTag("Player"))
             {
-                Debug.Log("깃발에 플레이어 콜라이더 Enter");
+                //uint otherID = other.GetComponentInParent<NetworkIdentity>().netId;
+                //
+                //foreach (uint playerID in gotPlayers)
+                //{
+                //    if (otherID.Equals(playerID))
+                //    {
+                //        Debug.Log("해당 깃발을 이미 획득했습니다.");
+                //        return;
+                //    }
+                //}
+
+                //gotPlayers.Add(otherID);
+                Debug.Log($"깃발에 플레이어 콜라이더 Enter -> 클론 이름 : {other.name}");
+                other.GetComponent<FlagClearChecker>().cleardCheck();
                 cmdGetFlagEFF();
-                isClear = true;
-                flagScoreManager.cleardCheck();
             }
         }
     }
 
+
+
     #region EFF 네트워크 효과
-    [Command (requiresAuthority = false)]
+    [Server]
     private void cmdGetFlagEFF()
     {
+        Debug.Log("Server 되었는가?");
         RPCGetFlagEFF();
     }
 
     [ClientRpc]
     private void RPCGetFlagEFF()
     {
-        onGetFlag?.Invoke();
-    }
-
-    private void PlayEFF()
-    {
+        Debug.Log("RPC 되었는가?");
         getFlagEFF.Stop();
         getFlagEFF.Play();
     }
