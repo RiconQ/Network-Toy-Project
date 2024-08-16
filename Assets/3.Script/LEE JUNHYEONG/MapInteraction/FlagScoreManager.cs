@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 public class FlagScoreManager : NetworkBehaviour
 {
     private FlagInteraction[] flags;
+    private GameManagerNetwork gameManagerNetwork;
 
     public override void OnStartAuthority()
     {
@@ -20,6 +21,7 @@ public class FlagScoreManager : NetworkBehaviour
         flags = new FlagInteraction[transform.childCount];
 
         flags = GetComponentsInChildren<FlagInteraction>();
+        gameManagerNetwork = GetComponent<GameManagerNetwork>();
     }
 
     public void cleardCheck()
@@ -33,6 +35,6 @@ public class FlagScoreManager : NetworkBehaviour
         }
 
         Debug.Log("标惯 铰府 飘府芭 劝己拳");
-        //Managers.Instance.Game.GetComponentInChildren<GameManagerNetwork>().ShowGameOver(GameOverState.WIN_FLAG);
+        gameManagerNetwork.ShowGameOver(GameOverState.WIN_FLAG);
     }
 }

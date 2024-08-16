@@ -12,6 +12,7 @@ using UnityEditor;
 using System.Net.Sockets;
 using System.Net;
 using Mirror;
+using UnityEditor.SceneManagement;
 
 public enum GameOverState
 {
@@ -23,6 +24,7 @@ public enum GameOverState
 public class GameManager : MonoBehaviour, IInitializable
 {
     [SerializeField] private  InGameTimer inGameTimer; // 타이머 변수
+    [SerializeField] public GameManagerNetwork gameManagerNetwork; // 네트워크 게임 메니저
     public GameOverState gameOverState = GameOverState.LOSE; // 게임 종료 상태 변수
 
     public MixerData defaultMixerData { get; private set; } // 믹서 기본값
@@ -46,6 +48,14 @@ public class GameManager : MonoBehaviour, IInitializable
     {
         //if (scene.buildIndex.Equals((int)SceneName.LEVEL))
         {
+            Debug.Log("타이머 생성");
+            GameObject g = new GameObject("Timer");
+            Debug.Log(g.transform.position);
+            inGameTimer = g.AddComponent<InGameTimer>();
+
+            gameManagerNetwork = Instantiate((GameObject)Resources.Load("LEE JUNHYEONG/prefabs/GameNetwork"))
+                .GetComponent<GameManagerNetwork>();
+
             gameOverState = GameOverState.LOSE;
         }
     }
@@ -53,9 +63,12 @@ public class GameManager : MonoBehaviour, IInitializable
     private void DestroyInGame(Scene scene, LoadSceneMode mode) // 인게임 종료 시 게임 타이머 파괴 플레이어 승리 false
     {
         if (inGameTimer != null)
-        {
+            Destroy(inGameTimer.gameObject);
+
+        if(gameManagerNetwork != null)
+            Destroy(gameManagerNetwork.gameObject);
+
             gameOverState = GameOverState.LOSE;
-        }
     }
 
     public void ShowGameOver() // 게임 종료 시 호출
