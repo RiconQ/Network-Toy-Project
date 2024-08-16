@@ -43,7 +43,7 @@ public class Managers : MonoBehaviour
     private void InitManagers()
     {
         // DatabaseManager 초기화
-        Database = InitManager<DatabaseManager>();        
+        Database = InitManager<DatabaseManager>();
 
         // SceneManagerEX 초기화
         Scene = InitManager<SceneManagerEX>();
