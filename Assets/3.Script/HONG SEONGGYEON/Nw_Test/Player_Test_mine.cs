@@ -213,6 +213,7 @@ public class Player_Test_mine : NetworkBehaviour
         {
             player_Ani.SetTrigger("isDead");
             isDead = true;
+            Debug.Log("Á×À½");
         }
     }
 

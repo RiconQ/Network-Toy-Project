@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-enum PlayerType_N
+enum PlayerType_test
 {
     SPEED,
     SCALE
@@ -27,56 +27,52 @@ public class Player_Test : NetworkBehaviour
     private bool isDead = false;
     private bool isUsingSkill = false;
     private bool isStun = false;
+    //  private bool canUseSkill = true;
 
-    private float skillCooldown = 20.0f;
-    private float nextSkillTime = 0f;
+    private float skillCooldown = 20.0f;  // 스킬 쿨타임
+    private float nextSkillTime = 0f;     // 다음 스킬 사용 가능 시간
+
 
     private Rigidbody rb;
     public GameObject colider;
-    private PlayerType_N playerType;
+    private PlayerType_test playerType;
     Animator player_Ani;
 
-    public override void OnStartServer()
-    {
-        int choosePlayer = Random.Range(0, 2);
-        playerType = (PlayerType_N)choosePlayer;
-    }
-
     private void Start()
-    {if (!isLocalPlayer) return;
+    {
+        if (!isLocalPlayer) return;
         player_Ani = player.GetComponent<Animator>();
         rb = player.GetComponent<Rigidbody>();
         player_Ani.SetBool("isWalk", false);
 
-        if (isServer)
-        {
-            int choosePlayer = Random.Range(0, 2);
-            playerType = (PlayerType_N)choosePlayer;
-        }
+        int choosePlayer = Random.Range(0, 2);
+
+        if (choosePlayer == 0) playerType = PlayerType_test.SPEED;
+        else playerType = PlayerType_test.SCALE;
         Debug.Log(playerType);
     }
 
     private void Update()
     {
-        if (isStun || !isLocalPlayer) return;
-
+        //  if (!isLocalPlayer) return;
+        //player_Ani.SetBool("isWalk", false);  // Idle
+        if (isStun) return;
         LookAround();
-        HandleMovementInput();
-        HandleJumpInput();
-        HandleAttackInput();
-        HandleSkillInput();
+        Jump();
+        Attack();
+        UseSkill();
+        // if (Input.GetKeyDown(KeyCode.U)) Die();
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate()  // 카메라 흔들림 방지..
     {
-        if (isLocalPlayer)
-        {
-            CmdMove(player.position, player.forward);
-        }
+        //  if (!isLocalPlayer) return;
+        Move();
     }
 
     private void LookAround()
     {
+        if (!isLocalPlayer) return;
         Vector2 mouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         Vector3 camAngle = camerArm.rotation.eulerAngles;
         float x = camAngle.x - mouse.y;
@@ -89,15 +85,27 @@ public class Player_Test : NetworkBehaviour
             x = Mathf.Clamp(x, 335f, 361f);
         }
         camerArm.rotation = Quaternion.Euler(x, camAngle.y + mouse.x, camAngle.z);
+
     }
 
-    private void HandleMovementInput()
+    private bool isPressShift()
     {
-        if (isAttacking || isDead || isStun) return;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) return true;
+        else return false;
+
+    }
+
+    private void Move()
+    {
+        if (!isLocalPlayer) return;
+        if (isAttacking || isDead || isStun)
+        {
+            //   Debug.Log($"attack: {isAttacking}  Dead:  {isDead}  Stun: {isStun}");
+            return;
+        }
 
         Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        bool isMoving = moveInput.magnitude != 0;
-
+        bool isMoving = moveInput.magnitude != 0;   //moveInput의 길이가 0이면 이동 입력이 없는것
         if (isMoving)
         {
             Vector3 lookForward = new Vector3(camerArm.forward.x, 0f, camerArm.forward.z).normalized;
@@ -116,131 +124,141 @@ public class Player_Test : NetworkBehaviour
                 player_Ani.SetBool("isWalk", true);
                 currentSpeed = walkSpeed;
             }
-
             transform.position += moveDir * Time.deltaTime * currentSpeed * skillSpeed;
         }
+
         else
         {
             player_Ani.SetBool("isWalk", false);
         }
+
     }
 
-    private void HandleJumpInput()
+    private void Jump()
     {
-        if (isAttacking || isDead || isStun || isJumping) return;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!isLocalPlayer) return;
+        if (isAttacking || isDead || isStun) return;
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            CmdJump();
+            player_Ani.SetBool("isJimp", true);
+            isJumping = true;
+
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
-    }
 
-    [Command]
-    private void CmdJump()
-    {
-        RpcJump();
-    }
-
-    [ClientRpc]
-    private void RpcJump()
-    {
-        if (isJumping) return;
-
-        player_Ani.SetTrigger("isJump");
-        isJumping = true;
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-        StartCoroutine(ResetJump());
-    }
-
-    private IEnumerator ResetJump()
-    {
-        yield return new WaitForSeconds(0.1f);
         AnimatorStateInfo stateInfo = player_Ani.GetCurrentAnimatorStateInfo(0);
 
-        if (stateInfo.IsName("Jump") && stateInfo.normalizedTime >= 0.9f)
+        if (stateInfo.IsName("Jump") && stateInfo.normalizedTime >= 0.6f)
         {
-            player_Ani.SetBool("isWalk", false);
             isJumping = false;
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                player_Ani.SetBool("isJimp", false);
+                player_Ani.SetBool("isWalk", true);
+            }
+            else
+            {
+                player_Ani.SetBool("isJimp", false);
+                // Debug.Log("넘어감");
+            }
         }
-    }
 
-    private void HandleAttackInput()
+    }
+    private void Attack()
     {
-        if (isJumping || isDead || isStun || isAttacking) return;
-        if (Input.GetMouseButtonDown(0))
+        if (!isLocalPlayer) return;
+        if (isJumping || isDead || isStun) return;
+
+        if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
-            CmdAttack();
+            player_Ani.SetBool("isAttack", true);
+            isAttacking = true;
+            CmdActivateCollider(true); // 서버에 콜라이더 활성화 요청
+        }
+
+        AnimatorStateInfo state_Info = player_Ani.GetCurrentAnimatorStateInfo(0);
+
+        if (state_Info.IsName("Attack") && state_Info.normalizedTime >= 0.6f)
+        {
+            isAttacking = false;
+            CmdActivateCollider(false); // 서버에 콜라이더 비활성화 요청
+
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                player_Ani.SetBool("isAttack", false);
+                player_Ani.SetBool("isWalk", true);
+            }
+            else
+            {
+                player_Ani.SetBool("isAttack", false);
+            }
         }
     }
 
     [Command]
-    private void CmdAttack()
+    private void CmdActivateCollider(bool isActive)
     {
-        RpcAttack();
+        RpcActivateCollider(isActive);
     }
 
     [ClientRpc]
-    private void RpcAttack()
+    private void RpcActivateCollider(bool isActive)
     {
-        if (isAttacking) return;
-
-        colider.SetActive(true);
-        player_Ani.SetTrigger("isAttack");
-        isAttacking = true;
-
-        StartCoroutine(ResetAttack());
+        colider.SetActive(isActive);
     }
 
-    private IEnumerator ResetAttack()
+    public void Die()
     {
-        yield return new WaitForSeconds(0.9f);
-        isAttacking = false;
-        colider.SetActive(false);
-    }
-
-    private void HandleSkillInput()
-    {
-        if (isDead || isStun || Time.time < nextSkillTime) return;
-        if (Input.GetKeyDown(KeyCode.E))
+        if (!isLocalPlayer) return;
+        if (!isDead)
         {
-            CmdUseSkill();
+            player_Ani.SetBool("isDead",true);
+            isDead = true;
+            Debug.Log("죽음");
+            CmdDie();
         }
     }
 
-    [Command]
-    private void CmdUseSkill()
+    private IEnumerator Destroy_co()
     {
-        RpcUseSkill();
-        nextSkillTime = Time.time + skillCooldown;
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
+    }
+   
+    [Command]
+    private void CmdDie()
+    {
+        RpcDie();
     }
 
     [ClientRpc]
-    private void RpcUseSkill()
+    private void RpcDie()
     {
-        switch (playerType)
-        {
-            case PlayerType_N.SPEED:
-                StartCoroutine(SpeedUP_co());
-                break;
+        StartCoroutine(Destroy_co());
+    }
 
-            case PlayerType_N.SCALE:
-                StartCoroutine(ScaleDown_co());
-                break;
+
+    public void UseSkill()
+    {
+        if (!isLocalPlayer) return;
+        if (isDead || isStun) return;
+        if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextSkillTime)  // 스킬 쿨타임 체크
+        {
+            switch (playerType)
+            {
+                case PlayerType_test.SPEED:
+                    StartCoroutine(SpeedUP_co());
+                    break;
+
+                case PlayerType_test.SCALE:
+                    StartCoroutine(ScaleDown_co());
+                    break;
+            }
+            nextSkillTime = Time.time + skillCooldown;  // 다음 스킬 사용 가능 시간 설정
+            Debug.Log(nextSkillTime);
         }
     }
 
-    [Command]
-    private void CmdMove(Vector3 position, Vector3 forward)
-    {
-        RpcMove(position, forward);
-    }
-
-    [ClientRpc]
-    private void RpcMove(Vector3 position, Vector3 forward)
-    {
-        transform.position = position;
-        player.forward = forward;
-    }
 
     private IEnumerator SpeedUP_co()
     {
@@ -252,11 +270,12 @@ public class Player_Test : NetworkBehaviour
         skillSpeed = 1f;
 
         isUsingSkill = false;
+
     }
 
     private IEnumerator ScaleDown_co()
     {
-        if (isUsingSkill) yield break;
+        if (isUsingSkill) yield break;  // 이미 스킬을 사용 중이면 종료
         isUsingSkill = true;
 
         Vector3 originalScale = player.localScale;
@@ -265,23 +284,68 @@ public class Player_Test : NetworkBehaviour
         yield return new WaitForSeconds(3.0f);
 
         player.localScale = originalScale;
+        // Debug.Log("크기 복귀");
+
         isUsingSkill = false;
+    }
+
+    //  public IEnumerator Stun_co()
+    //  {
+    //      if (isStun) yield break;
+    //      player_Ani.SetBool("isWalk", false);
+    //      player_Ani.SetBool("isRun", false);
+    //      isStun = true;
+    //      colider.SetActive(false);
+    //      yield return new WaitForSeconds(3f);
+    //      isStun = false;
+    //      isAttacking = false;
+    //  }
+
+  //  [ClientRpc]
+  //  public void RpcDie()
+  //  {
+  //      if (isDead) return;
+  //
+  //      player_Ani.SetTrigger("isDead");
+  //      isDead = true;
+  //  }
+
+    public void RpcStun()
+    {
+
+        StartCoroutine(Stun_co());
     }
 
     public IEnumerator Stun_co()
     {
         if (isStun) yield break;
+
         player_Ani.SetBool("isWalk", false);
         player_Ani.SetBool("isRun", false);
         isStun = true;
         colider.SetActive(false);
+
         yield return new WaitForSeconds(3f);
+
         isStun = false;
         isAttacking = false;
     }
 
-    private bool isPressShift()
-    {
-        return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-    }
+    //  private void SpeedUp()
+    //  {
+    //      currentTime += Time.deltaTime;
+    //      if(currentTime<3.0f)
+    //      {
+    //          skillSpeed = 10f;
+    //      Debug.Log("스피드업");
+    //      }
+    //      else
+    //      {
+    //          Debug.Log("복귀");
+    //          skillSpeed = 1f;
+    //          currentTime = 0;
+    //      }
+    //  }
+
+
 }
