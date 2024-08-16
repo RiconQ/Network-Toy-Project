@@ -7,6 +7,11 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
+using Amazon;
+using Amazon.EC2;
+using Amazon.EC2.Model;
+using Amazon.Runtime;
+using System.Threading.Tasks;
 
 public class UserInfo
 {
@@ -45,6 +50,50 @@ public class DatabaseSessionData
     }
 }
 
+public class AwsEC2Manager
+{
+    private string awsAccessKeyId = "AKIAQKPIMCMCNKQMC7E7";
+    private string awsSecretAccessKey = "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";
+    private string awsRegion = "ap-northeast-2"; // 한국 리전 (서울)
+    private string awsEC2InstanceId = "i-01f27b701c7fc3729";
+    public string Ec2PublicIp { get; private set; }
+    public Action OnPublicIPRetrieved { get; set; }
+
+    public IEnumerator GetEC2InstancePublicIP()
+    {
+        var credentials = new BasicAWSCredentials(awsAccessKeyId, awsSecretAccessKey);
+        var ec2Client = new AmazonEC2Client(credentials, RegionEndpoint.GetBySystemName(awsRegion));
+
+        var request = new DescribeInstancesRequest
+        {
+            InstanceIds = new List<string> { awsEC2InstanceId }
+        };
+
+        var responseTask = ec2Client.DescribeInstancesAsync(request);
+
+        yield return new WaitUntil(() => responseTask.IsCompleted);
+
+        if (responseTask.Exception == null)
+        {
+            foreach (var reservation in responseTask.Result.Reservations)
+            {
+                foreach (var instance in reservation.Instances)
+                {
+                    Ec2PublicIp = instance.PublicIpAddress;
+                    Debug.Log("Instance Public IP: " + Ec2PublicIp);
+                }
+            }
+
+            OnPublicIPRetrieved?.Invoke();
+        }
+        else
+        {
+            Debug.LogError("Error: " + responseTask.Exception.Message);
+        }
+    }
+}
+
+
 public class DatabaseManager : MonoBehaviour, IInitializable
 {
     public MySqlConnection DatabaseConnection { get; private set; }
@@ -52,16 +101,22 @@ public class DatabaseManager : MonoBehaviour, IInitializable
     public UserInfo UserInfo { get { return _userInfo; } set { _userInfo = value; } }
 
     private UserInfo _userInfo;
-
-
     private readonly string _databasePath = Application.dataPath + "/Database";
     private readonly string _filePath = "/config.json";
-
-    private DatabaseSessionData _databaseSession;    
+    private AwsEC2Manager awsEC2Manager; // EC2 관리 클래스 
 
     public void Init()
     {
+        awsEC2Manager = new AwsEC2Manager();
+        awsEC2Manager.OnPublicIPRetrieved = InitDataBase; // IP가 설정된 후 DB 초기화
+
+        StartCoroutine(awsEC2Manager.GetEC2InstancePublicIP());
+    }
+
+    private void InitDataBase()
+    {
         string serverDatabaseSessionDataInfo = SetServerDatabaseSessionData();
+
         try
         {
             if (serverDatabaseSessionDataInfo == string.Empty)
@@ -72,7 +127,7 @@ public class DatabaseManager : MonoBehaviour, IInitializable
 
             DatabaseConnection = new MySqlConnection(serverDatabaseSessionDataInfo);
             DatabaseConnection.Open();
-            Debug.Log("DB Open Connection Compelete");
+            Debug.Log("DB Open Connection Complete");
         }
         catch (Exception e)
         {
@@ -173,7 +228,6 @@ public class DatabaseManager : MonoBehaviour, IInitializable
     {
         string dataBaseSessionDataPath = _databasePath + _filePath;
 
-        // dataBaseSessionDataPath 경로에 파일이 존재하지 않는 경우, 경로 폴더 및 Database Session 정보를 생성한다.
         if (!File.Exists(_databasePath))
         {
             Directory.CreateDirectory(_databasePath);
@@ -186,20 +240,28 @@ public class DatabaseManager : MonoBehaviour, IInitializable
         }
 
         string JsonString = File.ReadAllText(dataBaseSessionDataPath);
-        /*
-         [{"IP" : "127.0.0.1",
-         "Port" : "3306",
-         "TableName" : "users",
-         "HostID" : "root",
-         "PassWord" : "0321}]
-        */
-        JsonData jsonDatabaseSesstionData = JsonMapper.ToObject(JsonString);
+        JsonData jsonDatabaseSessionData = JsonMapper.ToObject(JsonString);
+
+        // IP를 AWS EC2에서 가져온 IP로 설정
+        if (!string.IsNullOrEmpty(awsEC2Manager.Ec2PublicIp))
+        {
+            jsonDatabaseSessionData["IP"] = awsEC2Manager.Ec2PublicIp;
+        }
+        else
+        {
+            Debug.LogError("EC2 Public IP is not set.");
+            return string.Empty;
+        }
+
+        jsonDatabaseSessionData["HostID"] = "remotehost";
+        jsonDatabaseSessionData["PassWord"] = "3537";
+
         string serverDatabeseSesstionDataToString =
-            $"Server={jsonDatabaseSesstionData["IP"]};" +
-            $"Port={jsonDatabaseSesstionData["Port"]};" +
-            $"Database={jsonDatabaseSesstionData["TableName"]};" +
-            $"Uid={jsonDatabaseSesstionData["HostID"]};" +
-            $"Pwd={jsonDatabaseSesstionData["PassWord"]};" +
+            $"Server={jsonDatabaseSessionData["IP"]};" +
+            $"Port={jsonDatabaseSessionData["Port"]};" +
+            $"Database={jsonDatabaseSessionData["TableName"]};" +
+            $"Uid={jsonDatabaseSessionData["HostID"]};" +
+            $"Pwd={jsonDatabaseSessionData["PassWord"]};" +
             "CharSet=utf8;";
 
         return serverDatabeseSesstionDataToString;

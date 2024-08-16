@@ -96,7 +96,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     private void Move()
     {
-          if (!isLocalPlayer) return;
+        if (!isLocalPlayer) return;
         if (isAttacking || isDead || isStun)
         {
             //   Debug.Log($"attack: {isAttacking}  Dead:  {isDead}  Stun: {isStun}");
