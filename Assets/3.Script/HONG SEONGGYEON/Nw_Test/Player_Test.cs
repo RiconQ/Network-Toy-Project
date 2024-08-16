@@ -15,6 +15,8 @@ public class Player_Test : NetworkBehaviour
     private Transform player;
     [SerializeField]
     private Transform camerArm;
+    [SerializeField]
+    private GameObject deadPlayer;
 
     public float walkSpeed = 5f;
     public float runSpeed = 8f;
@@ -27,6 +29,7 @@ public class Player_Test : NetworkBehaviour
     private bool isDead = false;
     private bool isUsingSkill = false;
     private bool isStun = false;
+    private bool isDeadPlayer = false;
     //  private bool canUseSkill = true;
 
     private float skillCooldown = 20.0f;  // 스킬 쿨타임
@@ -44,6 +47,7 @@ public class Player_Test : NetworkBehaviour
         player_Ani = player.GetComponent<Animator>();
         rb = player.GetComponent<Rigidbody>();
         player_Ani.SetBool("isWalk", false);
+        
 
         int choosePlayer = Random.Range(0, 2);
 
@@ -137,7 +141,7 @@ public class Player_Test : NetworkBehaviour
     private void Jump()
     {
         if (!isLocalPlayer) return;
-        if (isAttacking || isDead || isStun) return;
+        if (isAttacking || isDead || isStun||isDeadPlayer) return;
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
             player_Ani.SetBool("isJimp", true);
@@ -167,7 +171,7 @@ public class Player_Test : NetworkBehaviour
     private void Attack()
     {
         if (!isLocalPlayer) return;
-        if (isJumping || isDead || isStun) return;
+        if (isJumping || isDead || isStun|| isDeadPlayer) return;
 
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
@@ -212,19 +216,14 @@ public class Player_Test : NetworkBehaviour
         if (!isLocalPlayer) return;
         if (!isDead)
         {
-            player_Ani.SetBool("isDead",true);
+            player_Ani.SetBool("isDead", true);
             isDead = true;
-            Debug.Log("죽음");
             CmdDie();
+
+            // player 오브젝트 비활성화 및 deadPlayer 활성화는 RpcDie에서 처리
         }
     }
 
-    private IEnumerator Destroy_co()
-    {
-        yield return new WaitForSeconds(5f);
-        Destroy(gameObject);
-    }
-   
     [Command]
     private void CmdDie()
     {
@@ -237,6 +236,29 @@ public class Player_Test : NetworkBehaviour
         StartCoroutine(Destroy_co());
     }
 
+    private IEnumerator Destroy_co()
+    {
+        // 5초 후에 player 오브젝트를 비활성화
+        yield return new WaitForSeconds(5f);
+
+        if (player != null)
+        {
+            player.gameObject.SetActive(false);
+        }
+
+        // player가 비활성화된 후에 deadPlayer를 활성화
+        if (isLocalPlayer && deadPlayer != null)
+        {
+            deadPlayer.SetActive(true);
+            deadPlayer.transform.position = player.transform.position - new Vector3(0, 0, 2);
+            deadPlayer.transform.rotation = player.transform.rotation;
+
+            player = deadPlayer.transform;  // player 참조를 deadPlayer로 변경
+            isDead = false;
+            isDeadPlayer = true;
+            skillSpeed = 1.7f;
+        }
+    }
 
     public void UseSkill()
     {
@@ -331,21 +353,6 @@ public class Player_Test : NetworkBehaviour
         isAttacking = false;
     }
 
-    //  private void SpeedUp()
-    //  {
-    //      currentTime += Time.deltaTime;
-    //      if(currentTime<3.0f)
-    //      {
-    //          skillSpeed = 10f;
-    //      Debug.Log("스피드업");
-    //      }
-    //      else
-    //      {
-    //          Debug.Log("복귀");
-    //          skillSpeed = 1f;
-    //          currentTime = 0;
-    //      }
-    //  }
 
 
 }

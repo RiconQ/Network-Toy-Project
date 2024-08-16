@@ -18,7 +18,7 @@ public class Colider_Test : NetworkBehaviour
         //   }
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player 때림");
+           // Debug.Log("Player 때림");
             Player_Test otherPlayer = other.GetComponentInParent<Player_Test>();
             otherPlayer.Die();
         }
