@@ -11,19 +11,18 @@ using UnityEngine.Events;
 using UnityEditor;
 using System.Net.Sockets;
 using System.Net;
+using Mirror;
 
 public enum GameOverState
 {
     LOSE,
     WIN_FLAG,
-    WIN_ALLDEAD,
-    Amount
+    WIN_ALLDEAD
 };
 
 public class GameManager : MonoBehaviour, IInitializable
 {
     [SerializeField] private  InGameTimer inGameTimer; // 타이머 변수
-    [SerializeField] private GameOverNetwork gameOverNetwork; // 게임 오버 네트워크
     public GameOverState gameOverState = GameOverState.LOSE; // 게임 종료 상태 변수
 
     public MixerData defaultMixerData { get; private set; } // 믹서 기본값
@@ -45,10 +44,8 @@ public class GameManager : MonoBehaviour, IInitializable
     #region 게임 메니저 메서드
     private void InitInGame(Scene scene, LoadSceneMode mode) // 인게임 진입 시 초기화할 것들
     {
-        if (scene.buildIndex.Equals((int)SceneName.LEVEL))
+        //if (scene.buildIndex.Equals((int)SceneName.LEVEL))
         {
-            inGameTimer = Instantiate(new GameObject(), transform).AddComponent<InGameTimer>();
-            gameOverNetwork = Instantiate(new GameObject(), transform).AddComponent<GameOverNetwork>();
             gameOverState = GameOverState.LOSE;
         }
     }
@@ -58,17 +55,13 @@ public class GameManager : MonoBehaviour, IInitializable
         if (inGameTimer != null)
         {
             gameOverState = GameOverState.LOSE;
-            Destroy(inGameTimer.gameObject);
-            Destroy(gameOverNetwork.gameObject);
         }
     }
 
     public void ShowGameOver() // 게임 종료 시 호출
     {
         /*
-         * 게임 메니저 하위에 있는 게임오버 네트워크라는 메소드에서 이를 호출합니다
-         * 따라서 GameOverNetwork 오브젝트에 있는 ShowGameOver(GameOverState overState) 라는 메소드를 호출하면 자동적으로 실행됩니다.
-         * 매개변수로 스테이트를 갱신합니다.
+         * 게임 메니저 하위에 있는 게임오버 네트워크라는 메소드에서 이를 호출합니다.
          * gameOverEvents 에 종료 이벤트를 저장하면 해당 메소드에서 이를 수행합니다.
          */
 
