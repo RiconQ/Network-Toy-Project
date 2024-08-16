@@ -19,7 +19,6 @@ public class PlayerCreate : MonoBehaviour
 
     private void Start()
     {
-        playerPrefab.SetActive(false);
         Vector3 spawnPosition = generationPosition();
         GameObject playObject = Instantiate(playerPrefab, spawnPosition, Random.rotation);
         // 생성된 AI 오브젝트에 AI 스크립트를 추가하거나 설정할 수 있습니다.

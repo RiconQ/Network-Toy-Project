@@ -35,6 +35,7 @@ public class AICreate : NetworkBehaviour
             // 생성된 AI 오브젝트에 AI 스크립트를 추가하거나 설정할 수 있습니다.
             aiObject.SetActive(true);
              NetworkServer.Spawn(aiObject);
+            Debug.Log("생성");
             AI aiScript = aiObject.GetComponent<AI>();
             if (aiScript != null)
             {
