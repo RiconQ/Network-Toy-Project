@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/1.Scene/KIM JIHUN/LOGIN.unity
-    guid: 07d9cd8328a10304caa10f758dfaab48
+    path: Assets/1.Scene/KIM JIHUN/Test/MainMenu.unity
+    guid: 644ab6a4213d099488408b8d5a6625fa
   - enabled: 1
-    path: Assets/1.Scene/KIM JIHUN/ROOM.unity
-    guid: b00e6b0b4d6e51042b37dce79dcdd6a7
+    path: Assets/1.Scene/KIM JIHUN/Test/GameRoom.unity
+    guid: ba85c3be1d19c5e4aab36795fc576f71
   - enabled: 1
-    path: Assets/1.Scene/KIM JIHUN/Level.unity
-    guid: 27e549c45bcc87b4d900619b392e7cec
+    path: Assets/1.Scene/KIM JIHUN/Test/InGameScene.unity
+    guid: 84972ff9805061746b04ddb01ecf1904
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}

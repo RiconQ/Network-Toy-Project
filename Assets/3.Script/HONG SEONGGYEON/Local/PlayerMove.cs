@@ -118,11 +118,13 @@ public class PlayerMove : NetworkBehaviour
             player.forward = moveDir;
             if (isPressShift())
             {
+                Debug.Log("Shift Press");
                 player_Ani.SetBool("isRun", true);
                 currentSpeed = runSpeed;
             }
             else
             {
+                Debug.Log("Shift Realese");
                 player_Ani.SetBool("isRun", false);
                 player_Ani.SetBool("isWalk", true);
                 currentSpeed = walkSpeed;
@@ -132,6 +134,8 @@ public class PlayerMove : NetworkBehaviour
 
         else
         {
+
+            Debug.Log("Idle");
             player_Ani.SetBool("isWalk", false);
         }
 
@@ -143,7 +147,9 @@ public class PlayerMove : NetworkBehaviour
         if (isAttacking || isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            player_Ani.SetTrigger("isJump");
+            if (rb.velocity.y > 0f) return;
+            Debug.Log("Jump");
+            player_Ani.SetBool("isJump", true);
             isJumping = true;
 
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -155,9 +161,24 @@ public class PlayerMove : NetworkBehaviour
         if (stateInfo.IsName("Jump") && stateInfo.normalizedTime >= 0.9f)
         {
             //   Debug.Log("끝남");
-            player_Ani.SetBool("isWalk", false);
             isJumping = false;
             // player_Ani.SetTrigger("isIdle");  // Idle 상태로 전환
+
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                player_Ani.SetBool("isJump", false);
+                if (isPressShift())
+                {
+                    player_Ani.SetBool("isRun", true);
+                    return;
+                }
+                player_Ani.SetBool("isWalk", true);
+            }
+            else
+            {
+                player_Ani.SetBool("isJump", false);
+                // Debug.Log("넘어감");
+            }
         }
     }
 
@@ -168,7 +189,7 @@ public class PlayerMove : NetworkBehaviour
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
             colider.SetActive(true);
-            player_Ani.SetTrigger("isAttack");
+            player_Ani.SetBool("isAttack", true);
             isAttacking = true;
         }
 
@@ -180,10 +201,13 @@ public class PlayerMove : NetworkBehaviour
             colider.SetActive(false);
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
+                player_Ani.SetBool("isAttack", false);
                 player_Ani.SetBool("isWalk", true);
+                return;
             }
             else
             {
+                player_Ani.SetBool("isAttack", false);
                 player_Ani.SetBool("isWalk", false);
                 // Debug.Log("넘어감");
             }
@@ -277,6 +301,5 @@ public class PlayerMove : NetworkBehaviour
     //          currentTime = 0;
     //      }
     //  }
-
 
 }
