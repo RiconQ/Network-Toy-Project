@@ -1603,6 +1603,7 @@ GameObject:
   - component: {fileID: 2476272439962496533}
   - component: {fileID: 5297933388806655203}
   - component: {fileID: 5894961374975111766}
+  - component: {fileID: 6441695292814782900}
   m_Layer: 0
   m_Name: Player_Model
   m_TagString: Player
@@ -1711,6 +1712,27 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!65 &6441695292814782900
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6483444330859135887}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.6935363, z: 0.47543737}
+  m_Center: {x: 0, y: 0.8960669, z: 0.10062848}
 --- !u!1 &6493331489306724669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2306,10 +2328,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6853994341798506006}
   - component: {fileID: 7891997179976611131}
-  - component: {fileID: 967364326362944607}
   m_Layer: 0
   m_Name: python_characters-male1591
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2439,27 +2460,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: -0.09927708, z: 0.07233002}
     m_Extent: {x: 0.5703626, y: 0.91020614, z: 0.3019686}
   m_DirtyAABB: 0
---- !u!65 &967364326362944607
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7946054238485014869}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.1407253, y: 1.5482461, z: 0.32678312}
-  m_Center: {x: 0, y: 0.9744297, z: 0.038283527}
 --- !u!1 &7991957216228767455
 GameObject:
   m_ObjectHideFlags: 0
