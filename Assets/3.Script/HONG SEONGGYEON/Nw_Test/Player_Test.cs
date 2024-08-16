@@ -144,7 +144,7 @@ public class Player_Test : NetworkBehaviour
         if (isAttacking || isDead || isStun||isDeadPlayer) return;
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            player_Ani.SetBool("isJimp", true);
+            player_Ani.SetBool("isJump", true);
             isJumping = true;
 
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -157,12 +157,12 @@ public class Player_Test : NetworkBehaviour
             isJumping = false;
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
-                player_Ani.SetBool("isJimp", false);
+                player_Ani.SetBool("isJump", false);
                 player_Ani.SetBool("isWalk", true);
             }
             else
             {
-                player_Ani.SetBool("isJimp", false);
+                player_Ani.SetBool("isJump", false);
                 // Debug.Log("�Ѿ");
             }
         }
