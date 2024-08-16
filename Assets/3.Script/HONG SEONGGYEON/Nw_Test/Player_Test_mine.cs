@@ -177,7 +177,7 @@ public class Player_Test_mine : NetworkBehaviour
 
         AnimatorStateInfo state_Info = player_Ani.GetCurrentAnimatorStateInfo(0);
 
-        if (state_Info.IsName("Attack") && state_Info.normalizedTime >= 0.9f)
+        if (state_Info.IsName("Attack") && state_Info.normalizedTime >= 0.6f)
         {
             isAttacking = false;
            CmdActivateCollider(false); // 서버에 콜라이더 비활성화 요청
@@ -213,6 +213,7 @@ public class Player_Test_mine : NetworkBehaviour
         {
             player_Ani.SetTrigger("isDead");
             isDead = true;
+            Debug.Log("죽음");
         }
     }
 
