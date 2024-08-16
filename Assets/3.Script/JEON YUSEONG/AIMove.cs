@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using Mirror;
 
-public class AI : NetworkBehaviour
+public class AIMove : NetworkBehaviour
 {
-
     public GameObject AIObject;  // AI 오브젝트
     public Animator anim;         // Animator 컴포넌트
     private NavMeshAgent navMeshAgent; // NavMeshAgent 컴포넌트
@@ -54,6 +53,8 @@ public class AI : NetworkBehaviour
         // NavMeshAgent가 null이 아닌지 확인
         if (navMeshAgent == null) return;
 
+        HandleMovement();
+
         // AI의 이동 상태에 따라 애니메이션 설정
         if (navMeshAgent.velocity.magnitude == 0)
         {
@@ -64,8 +65,48 @@ public class AI : NetworkBehaviour
             anim.SetBool("Walk", true);
         }
     }
-    //-------------------------------------
-    // AI의 죽음 처리
+
+    private void HandleMovement()
+    {
+        // 이미 죽었거나 NavMeshAgent가 null이면 종료
+        if (isDead || navMeshAgent == null) return;
+
+        StartCoroutine(MoveToRandomPosition()); // 이동 코루틴 시작
+    }
+
+    private IEnumerator MoveToRandomPosition()
+    {
+        while (!isDead)
+        {
+            Vector3 randomPosition = GetRandomPositionOnNavMesh();
+            transform.LookAt(randomPosition); // 목표 방향으로 회전
+            navMeshAgent.SetDestination(randomPosition); // NavMeshAgent의 목표 위치 설정
+            anim.SetBool("Walk", true); // 이동 애니메이션 활성화
+
+            // 목표 위치까지 이동하는 동안 대기
+            while (!navMeshAgent.pathPending && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+            {
+                if (isDead) yield break;
+                yield return null;
+            }
+
+            anim.SetBool("Walk", false); // 이동 애니메이션 비활성화
+
+            // 무작위 대기 시간 설정
+            float waitTime = Random.Range(minWaitTime, maxWaitTime);
+            float elapsed = 0f;
+            while (elapsed < waitTime)
+            {
+                if (isDead) yield break;
+                elapsed += Time.deltaTime; // 시간 경과
+                yield return null;
+            }
+        }
+
+        // 위치를 클라이언트에 동기화
+        RpcSyncPosition(transform.position);
+    }
+
     public void Die()
     {
         // 이미 죽은 경우 처리 방지
@@ -76,14 +117,11 @@ public class AI : NetworkBehaviour
         StartCoroutine(DestroyAI()); // AI 제거 코루틴 시작
     }
 
-    // BoxCollider로 초기화
     public void Initialize(BoxCollider collider)
     {
         rangeCollider = collider; // 범위 오브젝트의 BoxCollider를 설정
-        StartCoroutine(MoveToRandomPosition()); // 이동 코루틴을 시작
     }
 
-    // AI 제거 코루틴
     private IEnumerator DestroyAI()
     {
         float destroyTime = 5f; // 제거 대기 시간
@@ -98,40 +136,6 @@ public class AI : NetworkBehaviour
         }
     }
 
-    // 무작위 위치로 이동하는 코루틴
-    private IEnumerator MoveToRandomPosition()
-    {
-        // 이미 죽었거나 NavMeshAgent가 null이면 종료
-        if (isDead) yield break;
-        if (navMeshAgent == null) yield break;
-
-        while (!isDead)
-        {
-            Vector3 randomPosition = GetRandomPositionOnNavMesh();
-            transform.LookAt(randomPosition); // 목표 방향으로 회전
-            navMeshAgent.SetDestination(randomPosition); // NavMeshAgent의 목표 위치 설정
-            anim.SetBool("Walk", true); // 이동 애니메이션 활성화
-            // 목표 위치까지 이동하는 동안 대기
-            while (!navMeshAgent.pathPending && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
-            {
-                if (isDead) yield break;
-                yield return null;
-            }
-
-            anim.SetBool("Walk", false); // 이동 애니메이션 비활성화
-
-            float waitTime = Random.Range(minWaitTime, maxWaitTime); // 무작위 대기 시간
-            float elapsed = 0f;
-            while (elapsed < waitTime)
-            {
-                if (isDead) yield break;
-                elapsed += Time.deltaTime; // 시간 경과
-                yield return null;
-            }
-        }
-    }
-
-    // NavMesh에서 무작위 위치를 반환
     private Vector3 GetRandomPositionOnNavMesh()
     {
         Vector3 randomDirection = Random.insideUnitSphere * 20f; // 반지름이 20인 유닛 안에서 무작위 방향 벡터 생성
@@ -147,5 +151,12 @@ public class AI : NetworkBehaviour
         {
             return transform.position; // 위치를 찾지 못했으면 현재 위치 반환
         }
+    }
+
+    [ClientRpc]
+    private void RpcSyncPosition(Vector3 newPosition)
+    {
+        // 클라이언트에 동기화된 위치 적용
+        transform.position = newPosition;
     }
 }
