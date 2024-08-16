@@ -19,29 +19,6 @@ public class SceneManagerEX : MonoBehaviour, IInitializable
 
     }
 
-    [VisibleEnum(typeof(SceneName))]
-    public void btn_LoadScene(int sceneName) // 버튼용 씬 로드
-    {
-        switch (sceneName)
-        {
-                case (int)SceneName.LOGIN:
-                SceneManager.LoadScene(sceneName);
-                break;
-
-                case (int)SceneName.LOBBY:
-                SceneManager.LoadScene(sceneName);
-                break;
-
-                case (int)SceneName.LEVEL:
-                SceneManager.LoadScene(sceneName);
-                break;
-
-                default:
-                Debug.Log("Invalid Scene이 로드 되었습니다.");
-                break;
-        }
-    }
-
     public void LoadScene(SceneName sceneName) // 스크립트용 씬 로드
     {
         switch (sceneName)
