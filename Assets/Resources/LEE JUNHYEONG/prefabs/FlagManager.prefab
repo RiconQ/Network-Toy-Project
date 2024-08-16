@@ -19605,7 +19605,6 @@ GameObject:
   - component: {fileID: 3040179537807869302}
   - component: {fileID: 1457001256131281238}
   - component: {fileID: 7495242447628833672}
-  - component: {fileID: 4197917534110385070}
   m_Layer: 0
   m_Name: FlagZone_4
   m_TagString: Untagged
@@ -19718,23 +19717,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   getFlagEFF: {fileID: 5321779048957832797}
---- !u!114 &4197917534110385070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3696214807015872099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 1345627599
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!1 &4592316541065229244
 GameObject:
   m_ObjectHideFlags: 0
@@ -34441,7 +34423,6 @@ GameObject:
   - component: {fileID: 4336848796616156930}
   - component: {fileID: 5949028480387874371}
   - component: {fileID: 8391448899088767275}
-  - component: {fileID: 8551336547050506936}
   m_Layer: 0
   m_Name: FlagZone_1
   m_TagString: Untagged
@@ -34554,23 +34535,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   getFlagEFF: {fileID: 2678894319130553248}
---- !u!114 &8551336547050506936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6115806689241328392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 1345627599
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!1 &6227024560613230616
 GameObject:
   m_ObjectHideFlags: 0
@@ -34584,7 +34548,6 @@ GameObject:
   - component: {fileID: 1900034590167040856}
   - component: {fileID: 4390563931195271488}
   - component: {fileID: 8215806048925250377}
-  - component: {fileID: 5675981006551089494}
   m_Layer: 0
   m_Name: FlagZone_2
   m_TagString: Untagged
@@ -34697,23 +34660,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   getFlagEFF: {fileID: 6575716276539274078}
---- !u!114 &5675981006551089494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6227024560613230616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 1345627599
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!1 &6355866287090000864
 GameObject:
   m_ObjectHideFlags: 0
@@ -44521,7 +44467,6 @@ GameObject:
   - component: {fileID: 7609372998186813260}
   - component: {fileID: 2831365055960603350}
   - component: {fileID: 4872930572915440150}
-  - component: {fileID: 4200646849543435640}
   m_Layer: 0
   m_Name: FlagZone_3
   m_TagString: Untagged
@@ -44634,23 +44579,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   getFlagEFF: {fileID: 3944435575361783983}
---- !u!114 &4200646849543435640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7313900963613693467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 1345627599
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!1 &8552422769688730548
 GameObject:
   m_ObjectHideFlags: 0
@@ -59354,6 +59282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5923716837418558287}
   - component: {fileID: 3858058147226343601}
+  - component: {fileID: -2216479536640758219}
   m_Layer: 0
   m_Name: FlagManager
   m_TagString: Untagged
@@ -59392,3 +59321,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53bc9e0d14c137949a1b21305b74dc56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2216479536640758219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9195168158934977685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1345627599
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
