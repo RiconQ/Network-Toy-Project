@@ -1534,11 +1534,11 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 1891306467516807610, guid: 6ab0ab2cd259f5c4aa568e740b30a882, type: 3}
+  playerPrefab: {fileID: 1891306467516807610, guid: fdfbdbbe25a335440bb3103957559ff7, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs:
-  - {fileID: 1891306467516807610, guid: f07312e7bd0e11a4c8ba6f630e87d3ba, type: 3}
+  - {fileID: 1891306467516807610, guid: 119f61f36d66c1a48978e3dfca564bda, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -1558,7 +1558,7 @@ MonoBehaviour:
   minPlayers: 1
   roomPlayerPrefab: {fileID: 872177323297487877, guid: be75316fa09f2fa4794250f4af2ac195, type: 3}
   RoomScene: Assets/1.Scene/KIM JIHUN/ROOM.unity
-  GameplayScene: Assets/1.Scene/KIM JIHUN/LEVEL.unity
+  GameplayScene: Assets/1.Scene/KIM JIHUN/Level.unity
   _allPlayersReady: 0
   clientIndex: 0
 --- !u!4 &519862416

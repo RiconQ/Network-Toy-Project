@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8091282400767620263
+--- !u!1 &4800236764841778155
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6063419272055997836}
-  - component: {fileID: 8925656568452772875}
-  - component: {fileID: 2675973873006822018}
+  - component: {fileID: 1095359257780934310}
+  - component: {fileID: 2965973344549794439}
+  - component: {fileID: 5473798673744784346}
+  - component: {fileID: 1427031748893189092}
   m_Layer: 0
   m_Name: AIspawn
   m_TagString: Untagged
@@ -18,13 +19,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6063419272055997836
+--- !u!4 &1095359257780934310
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8091282400767620263}
+  m_GameObject: {fileID: 4800236764841778155}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 60.9, y: 0, z: 60.3}
@@ -33,13 +34,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8925656568452772875
+--- !u!65 &2965973344549794439
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8091282400767620263}
+  m_GameObject: {fileID: 4800236764841778155}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -54,21 +55,38 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 130, y: 0.1, z: 130}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2675973873006822018
+--- !u!114 &5473798673744784346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8091282400767620263}
+  m_GameObject: {fileID: 4800236764841778155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbb2115297c613d4a9f47456ccbba8f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1123806915
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &1427031748893189092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4800236764841778155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a02353e9076e840a419e2f4bb576c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  aiPrefab: {fileID: 0}
-  rangeObject: {fileID: 8091282400767620263}
+  aiPrefab: {fileID: 5418859409432680992, guid: 73b8ee24b92c97a4e8d939fcc5baa9f6, type: 3}
+  rangeObject: {fileID: 4800236764841778155}
   numberOfAIs: 60

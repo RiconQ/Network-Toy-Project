@@ -26,15 +26,18 @@ public class AICreate : NetworkBehaviour
             return;
 
         aiPrefab.SetActive(false);
+        Debug.Log("qwe");
         // 지정된 개수만큼 AI 오브젝트를 생성합니다.
         for (int i = 0; i < numberOfAIs; i++)
         {
+            Debug.Log("qwe");
             // 각 AI 오브젝트를 랜덤 위치와 회전으로 생성합니다.
             Vector3 spawnPosition = generationPosition();
             GameObject aiObject = Instantiate(aiPrefab, spawnPosition, Random.rotation);
             // 생성된 AI 오브젝트에 AI 스크립트를 추가하거나 설정할 수 있습니다.
             aiObject.SetActive(true);
              NetworkServer.Spawn(aiObject);
+            Debug.Log("생성");
             AI aiScript = aiObject.GetComponent<AI>();
             if (aiScript != null)
             {

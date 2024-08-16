@@ -1332,7 +1332,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4605775404352308520}
-  - component: {fileID: 4231324046397142376}
+  - component: {fileID: 7326400032876974432}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -1356,7 +1356,7 @@ Transform:
   - {fileID: 9006876882161949327}
   m_Father: {fileID: 3805851622040829530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4231324046397142376
+--- !u!114 &7326400032876974432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1365,11 +1365,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5800699992533161110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b09b674d3323a7e4eb7f534b9c99f791, type: 3}
+  m_Script: {fileID: 11500000, guid: 46b39d06750d296419881eb64ea75c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   target: {fileID: 1047377754407957432}
-  offset: {x: 0, y: 1.7, z: 0.2}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &5901931199599489355
 GameObject:
   m_ObjectHideFlags: 0
