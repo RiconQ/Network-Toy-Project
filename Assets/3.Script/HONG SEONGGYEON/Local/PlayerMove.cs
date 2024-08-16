@@ -16,10 +16,15 @@ public class PlayerMove : NetworkBehaviour
     [SerializeField]
     private Transform camerArm;
 
+    [SyncVar]
     public float walkSpeed = 5f;
+    [SyncVar]
     public float runSpeed = 8f;
+    [SyncVar]
     private float currentSpeed;
+    [SyncVar]
     private float skillSpeed = 1f;
+    [SyncVar]
     private float jumpForce = 4f;
 
     private bool isJumping = false;
@@ -56,16 +61,16 @@ public class PlayerMove : NetworkBehaviour
 
     private void Update()
     {
-        // [서버 로직]
-        if (!isLocalPlayer) return; // 로컬 플레이어가 아니면 입력 처리하지 않음
-
-        //player_Ani.SetBool("isWalk", false);  // Idle
-        if (isStun) return;
-        LookAround();
-        Jump();
-        Attack();
-        UseSkill();
-        // if (Input.GetKeyDown(KeyCode.U)) Die();
+        //// [서버 로직]
+        //if (!isLocalPlayer) return; // 로컬 플레이어가 아니면 입력 처리하지 않음
+        //
+        ////player_Ani.SetBool("isWalk", false);  // Idle
+        //if (isStun) return;
+        //LookAround();
+        //Jump();
+        //Attack();
+        //UseSkill();
+        //// if (Input.GetKeyDown(KeyCode.U)) Die();
     }
 
     private void FixedUpdate()  // 카메라 흔들림 방지..
@@ -100,45 +105,44 @@ public class PlayerMove : NetworkBehaviour
 
     private void Move()
     {
-        //  if (!isLocalPlayer) return;
-        if (isAttacking || isDead || isStun)
+        if (authority)
         {
-            //   Debug.Log($"attack: {isAttacking}  Dead:  {isDead}  Stun: {isStun}");
-            return;
-        }
 
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        bool isMoving = moveInput.magnitude != 0;   //moveInput의 길이가 0이면 이동 입력이 없는것
-        if (isMoving)
-        {
-            Vector3 lookForward = new Vector3(camerArm.forward.x, 0f, camerArm.forward.z).normalized;
-            Vector3 lookRight = new Vector3(camerArm.right.x, 0f, camerArm.right.z).normalized;
-            Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
-
-            player.forward = moveDir;
-            if (isPressShift())
+            //  if (!isLocalPlayer) return;
+            if (isAttacking || isDead || isStun)
             {
-                Debug.Log("Shift Press");
-                player_Ani.SetBool("isRun", true);
-                currentSpeed = runSpeed;
+                //   Debug.Log($"attack: {isAttacking}  Dead:  {isDead}  Stun: {isStun}");
+                return;
             }
+
+            Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            bool isMoving = moveInput.magnitude != 0;   //moveInput의 길이가 0이면 이동 입력이 없는것
+            if (isMoving)
+            {
+                Vector3 lookForward = new Vector3(camerArm.forward.x, 0f, camerArm.forward.z).normalized;
+                Vector3 lookRight = new Vector3(camerArm.right.x, 0f, camerArm.right.z).normalized;
+                Vector3 moveDir = lookForward * moveInput.y + lookRight * moveInput.x;
+
+                player.forward = moveDir;
+                if (isPressShift())
+                {
+                    player_Ani.SetBool("isRun", true);
+                    currentSpeed = runSpeed;
+                }
+                else
+                {
+                    player_Ani.SetBool("isRun", false);
+                    player_Ani.SetBool("isWalk", true);
+                    currentSpeed = walkSpeed;
+                }
+                transform.position += moveDir * Time.deltaTime * currentSpeed * skillSpeed;
+            }
+
             else
             {
-                Debug.Log("Shift Realese");
-                player_Ani.SetBool("isRun", false);
-                player_Ani.SetBool("isWalk", true);
-                currentSpeed = walkSpeed;
+                player_Ani.SetBool("isWalk", false);
             }
-            transform.position += moveDir * Time.deltaTime * currentSpeed * skillSpeed;
         }
-
-        else
-        {
-
-            Debug.Log("Idle");
-            player_Ani.SetBool("isWalk", false);
-        }
-
     }
 
     private void Jump()
@@ -147,9 +151,7 @@ public class PlayerMove : NetworkBehaviour
         if (isAttacking || isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            if (rb.velocity.y > 0f) return;
-            Debug.Log("Jump");
-            player_Ani.SetBool("isJump", true);
+            player_Ani.SetTrigger("isJump");
             isJumping = true;
 
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -161,24 +163,9 @@ public class PlayerMove : NetworkBehaviour
         if (stateInfo.IsName("Jump") && stateInfo.normalizedTime >= 0.9f)
         {
             //   Debug.Log("끝남");
+            player_Ani.SetBool("isWalk", false);
             isJumping = false;
             // player_Ani.SetTrigger("isIdle");  // Idle 상태로 전환
-
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-            {
-                player_Ani.SetBool("isJump", false);
-                if (isPressShift())
-                {
-                    player_Ani.SetBool("isRun", true);
-                    return;
-                }
-                player_Ani.SetBool("isWalk", true);
-            }
-            else
-            {
-                player_Ani.SetBool("isJump", false);
-                // Debug.Log("넘어감");
-            }
         }
     }
 
@@ -189,7 +176,7 @@ public class PlayerMove : NetworkBehaviour
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
             colider.SetActive(true);
-            player_Ani.SetBool("isAttack", true);
+            player_Ani.SetTrigger("isAttack");
             isAttacking = true;
         }
 
@@ -201,13 +188,10 @@ public class PlayerMove : NetworkBehaviour
             colider.SetActive(false);
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
-                player_Ani.SetBool("isAttack", false);
                 player_Ani.SetBool("isWalk", true);
-                return;
             }
             else
             {
-                player_Ani.SetBool("isAttack", false);
                 player_Ani.SetBool("isWalk", false);
                 // Debug.Log("넘어감");
             }
@@ -301,5 +285,6 @@ public class PlayerMove : NetworkBehaviour
     //          currentTime = 0;
     //      }
     //  }
+
 
 }
