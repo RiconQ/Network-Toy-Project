@@ -135,11 +135,11 @@ public class Player_Test_mine : NetworkBehaviour
 
     private void Jump()
     {
-           if (!isLocalPlayer) return;
+        if (!isLocalPlayer) return;
         if (isAttacking || isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            player_Ani.SetTrigger("isJump");
+            player_Ani.SetBool("isJimp", true);
             isJumping = true;
 
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -147,43 +147,63 @@ public class Player_Test_mine : NetworkBehaviour
 
         AnimatorStateInfo stateInfo = player_Ani.GetCurrentAnimatorStateInfo(0);
 
-        // 만약 현재 점프 애니메이션이 재생 중이고, 애니메이션이 거의 끝난 상태라면
-        if (stateInfo.IsName("Jump") && stateInfo.normalizedTime >= 0.9f)
+        if (stateInfo.IsName("Jump") && stateInfo.normalizedTime >= 0.6f)
         {
-            //   Debug.Log("끝남");
-            player_Ani.SetBool("isWalk", false);
             isJumping = false;
-            // player_Ani.SetTrigger("isIdle");  // Idle 상태로 전환
-        }
-    }
-
-    private void Attack()
-    {
-         if (!isLocalPlayer) return;
-        if (isJumping || isDead || isStun) return;
-        if (Input.GetMouseButtonDown(0) && !isAttacking)
-        {
-            colider.SetActive(true);
-            player_Ani.SetTrigger("isAttack");
-            isAttacking = true;
-        }
-
-        AnimatorStateInfo stateInfo = player_Ani.GetCurrentAnimatorStateInfo(0);
-
-        if (stateInfo.IsName("Attack") && stateInfo.normalizedTime >= 0.9f)
-        {
-            isAttacking = false;
-            colider.SetActive(false);
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
+                player_Ani.SetBool("isJimp", false);
                 player_Ani.SetBool("isWalk", true);
             }
             else
             {
-                player_Ani.SetBool("isWalk", false);
+                player_Ani.SetBool("isJimp", false);
                 // Debug.Log("넘어감");
             }
         }
+
+    }
+    private void Attack()
+    {
+        if (!isLocalPlayer) return;
+        if (isJumping || isDead || isStun) return;
+
+        if (Input.GetMouseButtonDown(0) && !isAttacking)
+        {
+            player_Ani.SetBool("isAttack", true);
+            isAttacking = true;
+           CmdActivateCollider(true); // 서버에 콜라이더 활성화 요청
+        }
+
+        AnimatorStateInfo state_Info = player_Ani.GetCurrentAnimatorStateInfo(0);
+
+        if (state_Info.IsName("Attack") && state_Info.normalizedTime >= 0.9f)
+        {
+            isAttacking = false;
+           CmdActivateCollider(false); // 서버에 콜라이더 비활성화 요청
+
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                player_Ani.SetBool("isAttack", false);
+                player_Ani.SetBool("isWalk", true);
+            }
+            else
+            {
+                player_Ani.SetBool("isAttack", false);
+            }
+        }
+    }
+
+    [Command]
+    private void CmdActivateCollider(bool isActive)
+    {
+        RpcActivateCollider(isActive);
+    }
+
+    [ClientRpc]
+    private void RpcActivateCollider(bool isActive)
+    {
+        colider.SetActive(isActive);
     }
 
     public void Die()
@@ -247,14 +267,44 @@ public class Player_Test_mine : NetworkBehaviour
         isUsingSkill = false;
     }
 
+  //  public IEnumerator Stun_co()
+  //  {
+  //      if (isStun) yield break;
+  //      player_Ani.SetBool("isWalk", false);
+  //      player_Ani.SetBool("isRun", false);
+  //      isStun = true;
+  //      colider.SetActive(false);
+  //      yield return new WaitForSeconds(3f);
+  //      isStun = false;
+  //      isAttacking = false;
+  //  }
+
+    [ClientRpc]
+    public void RpcDie()
+    {
+        if (isDead) return;
+
+        player_Ani.SetTrigger("isDead");
+        isDead = true;
+    }
+
+    public void RpcStun()
+    { 
+
+        StartCoroutine(Stun_co());
+    }
+
     public IEnumerator Stun_co()
     {
         if (isStun) yield break;
+
         player_Ani.SetBool("isWalk", false);
         player_Ani.SetBool("isRun", false);
         isStun = true;
         colider.SetActive(false);
+
         yield return new WaitForSeconds(3f);
+
         isStun = false;
         isAttacking = false;
     }
