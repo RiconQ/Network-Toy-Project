@@ -16,15 +16,15 @@ using Mirror;
 
 public enum GameOverState
 {
-    LOSE,
+    LOOSE,
     WIN_FLAG,
     WIN_ALLDEAD
 };
 
 public class GameManager : MonoBehaviour, IInitializable
 {
-    [SerializeField] private  InGameTimer inGameTimer; // 타이머 변수
-    public GameOverState gameOverState = GameOverState.LOSE; // 게임 종료 상태 변수
+    [SerializeField] public  InGameTimer inGameTimer; // 타이머 변수
+    public GameOverState gameOverState = GameOverState.LOOSE; // 게임 종료 상태 변수
 
     public MixerData defaultMixerData { get; private set; } // 믹서 기본값
     public MixerData mixerData; // 자정되는 믹서
@@ -37,38 +37,41 @@ public class GameManager : MonoBehaviour, IInitializable
     {
         defaultMixerData = new MixerData(40f, 40f, 40f);
         mixerData = GetMixerDataFromLocal();
-        SceneManager.sceneLoaded += InitInGame;
-        SceneManager.sceneLoaded += DestroyInGame;
-        gameOverState = GameOverState.LOSE;
+        SceneManager.sceneLoaded += goInsideGame;
+        SceneManager.sceneUnloaded += OutInGame;
+        gameOverState = GameOverState.LOOSE;
+
+        GameObject Timer = new GameObject("Timer");
+        inGameTimer = Timer.AddComponent<InGameTimer>();
+        inGameTimer.gameObject.transform.SetParent(transform);
+        inGameTimer.gameObject.SetActive(false);
     }
 
     #region 게임 메니저 메서드
-    private void InitInGame(Scene scene, LoadSceneMode mode) // 인게임 진입 시 초기화할 것들
+    private void goInsideGame(Scene scene, LoadSceneMode mode) // 인게임 진입 시 초기화할 것들
     {
         //if (scene.buildIndex.Equals((int)SceneName.LEVEL))
         {
-            Debug.Log("타이머 생성");
-            GameObject g = new GameObject("Timer");
-            Debug.Log(g.transform.position);
-            inGameTimer = g.AddComponent<InGameTimer>();
+                inGameTimer.gameObject.SetActive(true);
 
-            gameOverState = GameOverState.LOSE;
+            gameOverState = GameOverState.LOOSE;
         }
     }
 
-    private void DestroyInGame(Scene scene, LoadSceneMode mode) // 인게임 종료 시 게임 타이머 파괴 플레이어 승리 false
+    private void OutInGame(Scene scene) // 인게임 종료 시 게임 타이머 파괴 플레이어 승리 false
     {
-        if (inGameTimer != null)
-            Destroy(inGameTimer.gameObject);
-
-            gameOverState = GameOverState.LOSE;
+        if (scene.buildIndex.Equals(SceneName.LEVEL))
+        {
+            inGameTimer.gameObject.SetActive(false);
+            gameOverState = GameOverState.LOOSE;
+        }
     }
 
-    public void ShowGameOver(GameOverState overState, bool _isLocalPlayer) // 게임 종료 Client RPC에서 호출
+        public void ShowGameOver(GameOverState overState, bool _isLocalPlayer) // 게임 종료 Client RPC에서 호출
     {
         /*
          * 게임 메니저 하위에 있는 게임오버 네트워크라는 메소드에서 이를 호출합니다.
-         * gameOverEvents 에 종료 이벤트를 저장하면 해당 메소드에서 이를 수행합니다.
+         * gameOverEvents 에 종료 이벤트를 등록하면 해당 메소드에서 이를 수행합니다.
          */
 
         if (_isLocalPlayer)
@@ -78,12 +81,27 @@ public class GameManager : MonoBehaviour, IInitializable
 
         else
         {
-            gameOverState = GameOverState.LOSE;
+            gameOverState = GameOverState.LOOSE;
         }
 
         Debug.Log($"현재 게임 오버 상태 {gameOverState}");
 
         gameOverEvents?.Invoke(gameOverState);
+    }
+
+    public void CurSorControl(bool isLocked) // 커서 컨트롤
+    {
+        if (isLocked)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
     #endregion
 

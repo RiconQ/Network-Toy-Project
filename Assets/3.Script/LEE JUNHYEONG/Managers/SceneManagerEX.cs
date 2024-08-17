@@ -8,8 +8,7 @@ public enum SceneName
 {
     LOGIN = 0,
     LOBBY = 1,
-    ROOM = 2,
-    LEVEL = 3
+    LEVEL = 2
 };
 
 public class SceneManagerEX : MonoBehaviour, IInitializable
