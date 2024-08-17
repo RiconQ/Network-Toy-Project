@@ -39,7 +39,8 @@ public class Player_Test_mine : NetworkBehaviour
     Animator player_Ani;
 
     private void Start()
-    {if (!isLocalPlayer) return;
+    {
+        if (!isLocalPlayer) return;
         player_Ani = player.GetComponent<Animator>();
         rb = player.GetComponent<Rigidbody>();
         player_Ani.SetBool("isWalk", false);
@@ -53,7 +54,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     private void Update()
     {
-      //  if (!isLocalPlayer) return;
+        //  if (!isLocalPlayer) return;
         //player_Ani.SetBool("isWalk", false);  // Idle
         if (isStun) return;
         LookAround();
@@ -65,13 +66,13 @@ public class Player_Test_mine : NetworkBehaviour
 
     private void FixedUpdate()  // 카메라 흔들림 방지..
     {
-      //  if (!isLocalPlayer) return;
+        //  if (!isLocalPlayer) return;
         Move();
     }
 
     private void LookAround()
     {
-         if (!isLocalPlayer) return;
+        if (!isLocalPlayer) return;
         Vector2 mouse = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         Vector3 camAngle = camerArm.rotation.eulerAngles;
         float x = camAngle.x - mouse.y;
@@ -172,7 +173,7 @@ public class Player_Test_mine : NetworkBehaviour
         {
             player_Ani.SetBool("isAttack", true);
             isAttacking = true;
-           CmdActivateCollider(true); // 서버에 콜라이더 활성화 요청
+            CmdActivateCollider(true); // 서버에 콜라이더 활성화 요청
         }
 
         AnimatorStateInfo state_Info = player_Ani.GetCurrentAnimatorStateInfo(0);
@@ -180,7 +181,7 @@ public class Player_Test_mine : NetworkBehaviour
         if (state_Info.IsName("Attack") && state_Info.normalizedTime >= 0.6f)
         {
             isAttacking = false;
-           CmdActivateCollider(false); // 서버에 콜라이더 비활성화 요청
+            CmdActivateCollider(false); // 서버에 콜라이더 비활성화 요청
 
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
@@ -208,7 +209,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     public void Die()
     {
-       if (!isLocalPlayer) return;
+        if (!isLocalPlayer) return;
         if (!isDead)
         {
             player_Ani.SetTrigger("isDead");
@@ -219,7 +220,7 @@ public class Player_Test_mine : NetworkBehaviour
 
     public void UseSkill()
     {
-           if (!isLocalPlayer) return;
+        if (!isLocalPlayer) return;
         if (isDead || isStun) return;
         if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextSkillTime)  // 스킬 쿨타임 체크
         {
@@ -268,17 +269,17 @@ public class Player_Test_mine : NetworkBehaviour
         isUsingSkill = false;
     }
 
-  //  public IEnumerator Stun_co()
-  //  {
-  //      if (isStun) yield break;
-  //      player_Ani.SetBool("isWalk", false);
-  //      player_Ani.SetBool("isRun", false);
-  //      isStun = true;
-  //      colider.SetActive(false);
-  //      yield return new WaitForSeconds(3f);
-  //      isStun = false;
-  //      isAttacking = false;
-  //  }
+    //  public IEnumerator Stun_co()
+    //  {
+    //      if (isStun) yield break;
+    //      player_Ani.SetBool("isWalk", false);
+    //      player_Ani.SetBool("isRun", false);
+    //      isStun = true;
+    //      colider.SetActive(false);
+    //      yield return new WaitForSeconds(3f);
+    //      isStun = false;
+    //      isAttacking = false;
+    //  }
 
     [ClientRpc]
     public void RpcDie()
@@ -290,7 +291,7 @@ public class Player_Test_mine : NetworkBehaviour
     }
 
     public void RpcStun()
-    { 
+    {
 
         StartCoroutine(Stun_co());
     }

@@ -11,7 +11,7 @@ public class New_CharacterMover : NetworkBehaviour
     public float speed = 5f;
 
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform cameraArm;
+    [SerializeField] protected Transform cameraArm;
 
     public virtual void Start()
     {
@@ -30,13 +30,13 @@ public class New_CharacterMover : NetworkBehaviour
         }
     }
 
-    private void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         LookAround();
         Move();
     }
 
-    public void Move()
+    public virtual void Move()
     {
         if (isOwned && isMoveable)
         {
@@ -80,7 +80,7 @@ public class New_CharacterMover : NetworkBehaviour
         }
     }
 
-    private void PlayAnimation(string animationClip)
+    protected void PlayAnimation(string animationClip)
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (!stateInfo.IsName(animationClip))

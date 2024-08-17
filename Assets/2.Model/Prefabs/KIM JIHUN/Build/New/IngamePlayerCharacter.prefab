@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 5444953963521392163}
   m_Layer: 0
   m_Name: IngamePlayerModel
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -455,6 +455,7 @@ Transform:
   - {fileID: 2791420399078855106}
   - {fileID: 8729952773199178392}
   - {fileID: 6540191582532962661}
+  - {fileID: 6021604935997200008}
   m_Father: {fileID: 4507887502371123851}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1281414358663688772
@@ -525,6 +526,7 @@ MonoBehaviour:
   animator: {fileID: 1281414358663688772}
   cameraArm: {fileID: 7521301295282130144}
   playerType: 0
+  attackCollider: {fileID: 8728419293808504454}
 --- !u!1 &3065606378380919654
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +892,7 @@ GameObject:
   - component: {fileID: 2791420399078855106}
   m_Layer: 0
   m_Name: python
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -987,7 +989,7 @@ GameObject:
   - component: {fileID: 2986239546409458027}
   m_Layer: 0
   m_Name: python_characters-highpolyeyes
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1111,7 +1113,7 @@ GameObject:
   - component: {fileID: 6784149864019423533}
   m_Layer: 0
   m_Name: IngamePlayerCharacter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1852,7 +1854,7 @@ GameObject:
   - component: {fileID: 6293430282955793169}
   m_Layer: 0
   m_Name: CameraArm
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2248,7 +2250,7 @@ GameObject:
   - component: {fileID: 2976425772566609045}
   m_Layer: 0
   m_Name: python_characters-male1591
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2497,6 +2499,75 @@ Transform:
   - {fileID: 8326878591119562840}
   m_Father: {fileID: 1018651407537201366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8728419293808504454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6021604935997200008}
+  - component: {fileID: 1467451646946415507}
+  - component: {fileID: 1552738370556241308}
+  m_Layer: 0
+  m_Name: Attack Collider
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6021604935997200008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8728419293808504454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0.55}
+  m_LocalScale: {x: 1, y: 1, z: 0.4}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3034352898565299861}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1467451646946415507
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8728419293808504454}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1552738370556241308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8728419293808504454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2297040cf60aa742ab0f243b02489dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!1 &8934892311952872034
 GameObject:
   m_ObjectHideFlags: 0

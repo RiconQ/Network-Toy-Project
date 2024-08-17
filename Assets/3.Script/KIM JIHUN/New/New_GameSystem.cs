@@ -9,6 +9,8 @@ public class New_GameSystem : NetworkBehaviour
 
     private List<New_IngameCharacterMover> players = new List<New_IngameCharacterMover>();
 
+    public GameObject gameOverUI;
+
     [SerializeField] private Transform[] spawnTransform;
 
     public void AddPlayer(New_IngameCharacterMover player)
@@ -17,6 +19,40 @@ public class New_GameSystem : NetworkBehaviour
         {
             players.Add(player);
         }
+    }
+
+    [Server]
+    public void UpdateAlivePlayer()
+    {
+        Debug.Log("UpdateAlivePlayer");
+        List<New_IngameCharacterMover> alivePlayers = new List<New_IngameCharacterMover>();
+        foreach (var player in players)
+        {
+            if (player.playerType == EPlayerType.Alive)
+            {
+                if (!alivePlayers.Contains(player))
+                {
+                    alivePlayers.Add(player);
+                }
+            }
+        }
+
+        if (alivePlayers.Count == 1)
+        {
+            Debug.Log("생존자 1명");
+            //Debug.Log(alivePlayers[0].playerName);
+            // Game Over -> 
+            RpcShowGameOverUI();
+        }
+        else
+            Debug.Log($"생존자 {alivePlayers.Count}명");
+
+    }
+
+    [ClientRpc]
+    private void RpcShowGameOverUI()
+    {
+        gameOverUI.SetActive(true);
     }
 
     private IEnumerator GameReady()
@@ -32,6 +68,7 @@ public class New_GameSystem : NetworkBehaviour
             players[i].playerType = EPlayerType.Alive;
 
             players[i].RpcTeleport(spawnTransform[i].position);
+            //players[i].netID = i;
         }
         Debug.Log(manager.roomSlots.Count);
     }
@@ -51,6 +88,19 @@ public class New_GameSystem : NetworkBehaviour
         {
             StartCoroutine(GameReady());
 
+        }
+    }
+
+    public void ExitGame()
+    {
+        var manager = New_RoomManager.singleton;
+        if (manager.mode == Mirror.NetworkManagerMode.Host)
+        {
+            manager.StopHost();
+        }
+        else if (manager.mode == Mirror.NetworkManagerMode.ClientOnly)
+        {
+            manager.StopClient();
         }
     }
 }
