@@ -49,18 +49,16 @@ public class FlagInteraction : NetworkBehaviour
 
 
 
-    #region EFF 네트워크 효과
+    #region 기둥 EFF
     [Server]
     private void cmdGetFlagEFF()
     {
-        Debug.Log("Server 되었는가?");
         RPCGetFlagEFF();
     }
 
     [ClientRpc]
     private void RPCGetFlagEFF()
     {
-        Debug.Log("RPC 되었는가?");
         getFlagEFF.Stop();
         getFlagEFF.Play();
     }
