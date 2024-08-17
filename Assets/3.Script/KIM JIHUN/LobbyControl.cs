@@ -43,7 +43,7 @@ public class LobbyControl : MonoBehaviour
 
     private void HostGame()
     {
-        var roomManager = MirrorNetworkRoomManager.singleton;
+        var roomManager = New_RoomManager.singleton;
 
         // 서버 열고 호스트로써 방을 생성한다.
         roomManager.StartHost();
@@ -51,7 +51,7 @@ public class LobbyControl : MonoBehaviour
 
     private void JoinGame()
     {
-        var roomManager = MirrorNetworkRoomManager.singleton;
+        var roomManager = New_RoomManager.singleton;
 
         // 클라이언트로 연결할 서버의 IP와 포트 번호 설정
         if(_ipInput.text == string.Empty)

@@ -28,7 +28,8 @@ public class CameraTransform : NetworkBehaviour
         if (isLocalPlayer && _camera != null)
         {
             // 타겟 위치를 기준으로 카메라 위치 갱신
-            _camera.transform.position = target.position + offset;
+            _camera.transform.position
+                = target.position + offset;
         }
     }
 }

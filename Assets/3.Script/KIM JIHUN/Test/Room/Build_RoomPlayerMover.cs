@@ -15,7 +15,13 @@ public class Build_RoomPlayerMover : NetworkBehaviour
 
     //public Transform parent;
 
-    private void Start()
+    //private void OnDestroy()
+    //{
+    //    //Build_RoomUI.Instance.UpdatePlayerCount();
+    //}
+
+
+    public virtual void Start()
     {
         if (isOwned)
         {
@@ -27,6 +33,8 @@ public class Build_RoomPlayerMover : NetworkBehaviour
             cam.transform.localPosition = new Vector3(0, 0, -4f);
             //cam.orthographicSize = 2.5f;
             PlayAnimation("Idle");
+
+            //Build_RoomUI.Instance.UpdatePlayerCount();
         }
     }
     private void FixedUpdate()
