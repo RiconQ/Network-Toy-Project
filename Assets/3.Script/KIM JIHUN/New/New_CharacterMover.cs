@@ -13,7 +13,7 @@ public class New_CharacterMover : NetworkBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform cameraArm;
 
-    private void Start()
+    public virtual void Start()
     {
         if (isOwned)
         {
