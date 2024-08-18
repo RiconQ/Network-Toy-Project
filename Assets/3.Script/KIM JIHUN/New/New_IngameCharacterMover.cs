@@ -93,8 +93,8 @@ public class New_IngameCharacterMover : New_CharacterMover
 
     public void Jump()
     {
-        isJumping = true;
-        PlayAnimation("Jump");
+        // isJumping = true;
+        // PlayAnimation("Jump");
     }
 
     public void Dead()
