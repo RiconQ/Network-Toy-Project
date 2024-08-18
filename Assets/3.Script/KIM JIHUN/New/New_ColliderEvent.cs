@@ -7,7 +7,7 @@ public class New_ColliderEvent : NetworkBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.GetComponentInParent<New_IngameCharacterMover>().name);
+        //Debug.Log(other.GetComponentInParent<New_IngameCharacterMover>().name);
 
         if (other.CompareTag("Player"))
         {
@@ -18,7 +18,16 @@ public class New_ColliderEvent : NetworkBehaviour
 
         if (other.CompareTag("AI"))
         {
-            //AI 공격 매서드
+            Debug.Log("AI 때림");
+            AIController otherAI = other.GetComponent<AIController>();
+            if (otherAI != null)
+            {
+                otherAI.Dead(); // AI 죽음 처리
+            }
+            else
+            {
+                Debug.Log("AI AIController 찾기 실패");
+            }
         }
     }
 }
