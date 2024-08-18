@@ -11,7 +11,7 @@ public class LoginController : MonoBehaviour
     [Header("Common")]
     [SerializeField] private TMP_Text _title;
     [SerializeField] private Image _iconIMG;
-    [SerializeField] private Sprite[] _icons; 
+    [SerializeField] private Sprite[] _icons;
 
     [Header("Login Text")]
     [SerializeField] private TMP_InputField _loginEmail;
@@ -35,7 +35,7 @@ public class LoginController : MonoBehaviour
     [SerializeField] private GameObject _popupObj;
 
     [Header("ObjBtn")]
-    [SerializeField] private GameObject _loginBtnObj;    
+    [SerializeField] private GameObject _loginBtnObj;
     [SerializeField] private GameObject _startGameBtnObj;
 
     private bool _isRegister = false;
@@ -50,7 +50,7 @@ public class LoginController : MonoBehaviour
         _registerBTN.onClick.AddListener(Register);
         _closeBTN.onClick.AddListener(Close);
 
-        _title.text = "로그인";
+        _title.text = "LOGIN";
         _iconIMG.sprite = _icons[0];
         _registerContainer.SetActive(false);
         _loginContainer.SetActive(true);
@@ -88,9 +88,9 @@ public class LoginController : MonoBehaviour
         if (_isRegister)
         {
             _registerContainer.SetActive(false);
-            _loginContainer.SetActive(true);            
+            _loginContainer.SetActive(true);
 
-            _title.text = "로그인";
+            _title.text = "LOGIN";
             _iconIMG.sprite = _icons[0];
 
             _isRegister = false;
@@ -102,7 +102,7 @@ public class LoginController : MonoBehaviour
             string exceptionMessage;
             bool isLoginSucess = Managers.Instance.Database.LoginUser(_loginEmail.text, _loginPassword.text, out exceptionMessage);
             //로그인 성공시 로그인 창 비활성화 후 메인메뉴 로그인 버튼 비활성화
-            
+
             // 로그인 성공
             if (isLoginSucess)
             {
@@ -110,12 +110,12 @@ public class LoginController : MonoBehaviour
                 _loginBtnObj.SetActive(false);
                 _startGameBtnObj.SetActive(true);
                 PrintLog(exceptionMessage);
-            }            
+            }
             else
             {
                 //로그인 실패 Log 출력
                 _logText.text = "로그인 실패";
-            }           
+            }
         }
     }
 
@@ -128,7 +128,7 @@ public class LoginController : MonoBehaviour
         if (_isRegister)
         {
             //회원가입 로직
-            string exceptionMessage;            
+            string exceptionMessage;
             bool isCreateSucess = Managers.Instance.Database.CreateUser(_registerEmail.text, _registerUserName.text, _registerPassword.text, out exceptionMessage);
 
             if (isCreateSucess)
@@ -136,10 +136,10 @@ public class LoginController : MonoBehaviour
                 //회원가입 성공시 로그인 창으로 전환
                 _registerContainer.SetActive(false);
                 _loginContainer.SetActive(true);
-                _title.text = "로그인";
+                _title.text = "LOGIN";
                 _iconIMG.sprite = _icons[0];
                 _isRegister = false;
-            }            
+            }
             else
             {
                 PrintLog(exceptionMessage);
@@ -151,7 +151,7 @@ public class LoginController : MonoBehaviour
             _registerContainer.SetActive(true);
             _loginContainer.SetActive(false);
 
-            _title.text = "회원가입";
+            _title.text = "REGISTER";
             _iconIMG.sprite = _icons[1];
 
             _isRegister = true;

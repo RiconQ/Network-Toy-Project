@@ -1051,6 +1051,7 @@ MonoBehaviour:
   playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 5595698263804454105, guid: acfeb8690b4833c46bd574a325701254, type: 3}
+  - {fileID: 5222843941892484703, guid: 0fb0a58f191c73d4cb973ff07221ffd6, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -5532,7 +5533,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Last Man Standing
+  m_text: "\uB9E8 \uC8FC\uBA39 \uC0B4\uC778\uB9C8"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 485051c63789bb346b79dc332df130f5, type: 2}
   m_sharedMaterial: {fileID: -5317594094175084570, guid: 485051c63789bb346b79dc332df130f5, type: 2}
