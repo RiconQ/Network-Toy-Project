@@ -87,7 +87,7 @@ public class New_GameSystem : NetworkBehaviour
         if (isServer)
         {
             StartCoroutine(GameReady());
-            SpawnAIs(50);  // 50마리의 AI 생성
+            SpawnAIs(100);  // 100마리의 AI 생성
         }
     }
 
