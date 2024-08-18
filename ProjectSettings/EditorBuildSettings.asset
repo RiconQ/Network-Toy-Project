@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/1.Scene/LEE JUNHYEONG/TempMain.unity
-    guid: dd446c328527fb24c914b0f80b1443dc
+    path: Assets/1.Scene/KIM JIHUN/Test/MainMenu.unity
+    guid: 644ab6a4213d099488408b8d5a6625fa
   - enabled: 1
-    path: Assets/1.Scene/LEE JUNHYEONG/TempRoom.unity
-    guid: 9025c00e5b8138e46b4444fa961126f6
+    path: Assets/1.Scene/KIM JIHUN/Test/GameRoom.unity
+    guid: ba85c3be1d19c5e4aab36795fc576f71
   - enabled: 1
-    path: Assets/1.Scene/LEE JUNHYEONG/TempLevel.unity
-    guid: 16bb424d1f2f15747bf179a94ca006ad
+    path: Assets/1.Scene/KIM JIHUN/Test/InGameScene.unity
+    guid: 84972ff9805061746b04ddb01ecf1904
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7, type: 2}

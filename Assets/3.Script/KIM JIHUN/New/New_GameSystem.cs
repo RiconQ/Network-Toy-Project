@@ -87,7 +87,7 @@ public class New_GameSystem : NetworkBehaviour
         if (isServer)
         {
             StartCoroutine(GameReady());
-
+            SpawnAIs(50);  // 50마리의 AI 생성
         }
     }
 
@@ -103,4 +103,24 @@ public class New_GameSystem : NetworkBehaviour
             manager.StopClient();
         }
     }
+
+    //======================================================
+    // [AI 스폰, 이동, 사망 처리 관련 로직] - 하단 코드부터 시작
+    //======================================================
+    [SerializeField] private GameObject aiPrefab;  // AI 프리팹
+    [SerializeField] private Transform[] aiSpawnPoints;  // AI 스폰 포인트
+
+    [Server]
+    private void SpawnAIs(int count)
+    {
+        aiSpawnPoints = spawnTransform;
+        for (int i = 0; i < count; i++)
+        {
+            // 랜덤한 위치에서 AI 소환
+            Transform spawnPoint = aiSpawnPoints[Random.Range(0, spawnTransform.Length)];
+            GameObject aiInstance = Instantiate(aiPrefab, spawnPoint.position, spawnPoint.rotation);
+            NetworkServer.Spawn(aiInstance);  // 네트워크 상에서 AI 소환
+        }
+    }
+
 }
